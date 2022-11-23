@@ -1,0 +1,337 @@
+type User {
+  _id: ID
+
+  name: String
+
+  surname: String
+
+  username: String
+
+  fullName: String
+}
+
+input UserInput {
+  name: String!
+
+  surname: String!
+
+  username: String!
+
+  password: String!
+}
+
+type AuthData {
+  userId: ID
+
+  name: String
+
+  surname: String
+
+  fullName: String
+
+  username: String
+
+  accessToken: String
+
+  refreshToken: String
+}
+
+type Query {
+  login(username: String!, password: String!): AuthData
+
+  renewToken(refreshToken: String!): String
+
+  """
+  Query weather data for a specific location
+  """
+  getWeatherData("City geo location" coords: CoordInput!, "Units of measurement. standard, metric and imperial units are available. If you do not use the units parameter, standard units will be applied by default." units: String, "You can use this parameter to get the output in your language. (de, en etc.)" lang: String): WeatherData
+
+  """
+  Say hello
+  """
+  sayHello("Your name" name: String!): String
+}
+
+type Mutation {
+  createUser(user: UserInput!): User
+}
+
+"""
+System Parameters
+"""
+type Sys {
+  """
+  Internal parameter
+  """
+  type: String
+
+  """
+  Internal parameter
+  """
+  id: String
+
+  """
+  Internal parameter
+  """
+  message: String
+
+  """
+  country code (AT, DE etc.)
+  """
+  country: String
+
+  """
+  Sunrise time, unix, UTC
+  """
+  sunrise: Int
+
+  """
+  Sunset time, unix, UTC
+  """
+  sunset: Int
+}
+
+"""
+Clouds data
+"""
+type Clouds {
+  """
+  Cloudiness, %
+  """
+  all: Int
+}
+
+"""
+Wind data
+"""
+type Wind {
+  """
+  Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour.
+  """
+  speed: Float
+
+  """
+  Wind direction, degrees (meteorological)
+  """
+  deg: Int
+
+  """
+  Wind gust. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour.
+  """
+  gust: Float
+}
+
+"""
+Rain data
+"""
+type Rain {
+  """
+  Rain volume for the last 1 hours
+  """
+  h1: Float
+
+  """
+  Rain volume for the last 3 hours
+  """
+  h3: Float
+}
+
+"""
+Snow data
+"""
+type Snow {
+  """
+  Snow volume for the last 1 hours
+  """
+  h1: Float
+
+  """
+  Snow volume for the last 3 hours
+  """
+  h3: Float
+}
+
+"""
+Main Weather Information
+"""
+type Main {
+  """
+  Temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
+  """
+  temp: Float
+
+  """
+  Temperature. This temperature parameter accounts for the human perception of weather. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
+  """
+  feels_like: Float
+
+  """
+  Minimum temperature at the moment. This is deviation from current temp that is possible for large cities and megalopolises geographically expanded (use these parameter optionally). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
+  """
+  temp_min: Float
+
+  """
+  Maximum temperature at the moment. This is deviation from current temp that is possible for large cities and megalopolises geographically expanded (use these parameter optionally). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit.
+  """
+  temp_max: Float
+
+  """
+  Atmospheric pressure on the sea level, hPa
+  """
+  pressure: Int
+
+  """
+  Humidity, %
+  """
+  humidity: Int
+
+  """
+  Atmospheric pressure on the sea level, hPa
+  """
+  sea_level: Int
+
+  """
+  Atmospheric pressure on the ground level, hPa
+  """
+  grnd_level: Int
+}
+
+"""
+more info Weather condition codes
+"""
+type Weather {
+  """
+  Weather condition id
+  """
+  id: Int
+
+  """
+  Group of weather parameters (Rain, Snow, Extreme etc.)
+  """
+  main: String
+
+  """
+  Weather condition within the group. You can get the output in your language.
+  """
+  description: String
+
+  """
+  Weather icon id
+  """
+  icon: String
+}
+
+"""
+City geo location
+"""
+type Coord {
+  """
+  City geo location, longitude
+  """
+  lon: Float
+
+  """
+  City geo location, latitude
+  """
+  lat: Float
+}
+
+"""
+Weather data
+"""
+type WeatherData {
+  """
+  City geo location
+  """
+  coord: Coord
+
+  """
+  More info Weather condition codes
+  """
+  weather: [Weather]
+
+  """
+  Internal parameter
+  """
+  base: String
+
+  """
+  Main Weather Information
+  """
+  main: Main
+
+  """
+  Visibility, meter
+  """
+  visibility: Int
+
+  """
+  Wind data
+  """
+  wind: Wind
+
+  """
+  Clouds data
+  """
+  clouds: Clouds
+
+  """
+  Rain data
+  """
+  rain: Rain
+
+  """
+  Snow data
+  """
+  snow: Snow
+
+  """
+  Time of data calculation, unix, UTC
+  """
+  dt: Int
+
+  """
+  System parameters
+  """
+  sys: Sys
+
+  """
+  Shift in seconds from UTC
+  """
+  timezone: Int
+
+  """
+  City ID. Please note that built-in geocoder functionality has been deprecated.
+  """
+  id: Int
+
+  """
+  City name. Please note that built-in geocoder functionality has been deprecated.
+  """
+  name: String
+
+  """
+  Internal parameter
+  """
+  cod: Int
+}
+
+"""
+City geo location
+"""
+input CoordInput {
+  """
+  City geo location, longitude
+  """
+  lon: Float!
+
+  """
+  City geo location, latitude
+  """
+  lat: Float!
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}
