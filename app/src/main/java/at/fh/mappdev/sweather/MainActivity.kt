@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -24,9 +25,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     override fun onCreate(savedInstanceState: Bundle?)  {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        launch {
-            val response = apolloClient.query(HelloQuery("User")).execute()
-            findViewById<TextView>(R.id.HelloMsg).text = response.data?.sayHello
+        findViewById<Button>(R.id.sayHelloBtn).setOnClickListener {
+            val name = findViewById<TextView>(R.id.nameInput).text.toString()
+            launch {
+                val response = apolloClient.query(HelloQuery(name=name)).execute()
+                findViewById<TextView>(R.id.HelloMsg).text = response.data?.sayHello
+            }
         }
     }
 }
