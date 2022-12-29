@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Sweather</string>
+    <string name="logoDesc">logo</string>
+    <string name="emailInputHint">Email</string>
+    <string name="passwordInputHint">Password</string>
+    <string name="nameInputHint">Name</string>
+    <string name="loginBtnText">login</string>
+    <string name="registerText"><u>Register</u></string>
+    <string name="or">or</string>
+    <string name="forgot_password_text"><u>Forgot Password?</u></string>
+    <string name="user_icon_desc">userIcon</string>
+    <string name="password_icon_desc">passwordIcon</string>
+    <string name="email_icon_desc">emailIcon</string>
+    <string name="loginLinkText"><u>Login</u></string>
 </resources>

@@ -1,0 +1,6 @@
+query RenewToken($refreshToken: String!) {
+  renewToken(refreshToken: $refreshToken) {
+    accessToken
+    refreshToken
+  }
+}

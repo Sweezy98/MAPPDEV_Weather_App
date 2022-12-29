@@ -5,14 +5,35 @@ schema {
     mutation: Mutation
 }
 
+"returned data after login"
 type AuthData {
-    accessToken: String
-    fullName: String
+    "Email of the user"
+    email: String
+    "Name of the user"
     name: String
-    refreshToken: String
-    surname: String
+    "session id"
+    session: String
+    "access and refresh token"
+    tokens: AuthTokens
+    "Unique identifier from Database for the user"
     userId: ID
-    username: String
+}
+
+"access and refresh token"
+type AuthTokens {
+    """
+
+    access token
+    valid for 15 minutes
+    """
+    accessToken: String
+    """
+
+    refresh token
+    valid for 30 days
+    gets refreshed on every renewToken call
+    """
+    refreshToken: String
 }
 
 "Clouds data"
@@ -50,10 +71,24 @@ type Main {
 }
 
 type Mutation {
+    """
+
+    change password
+    returns true if password was changed
+    """
+    changePassword(newPassword: String!, oldPassword: String!): Boolean
+    "register a new user"
     createUser(user: UserInput!): User
 }
 
 type Query {
+    """
+
+    forgot password
+    returns true if email was sent
+    returns also true if email was not found (security)
+    """
+    forgotPassword(email: String!): Boolean
     "Query weather data for a specific location"
     getWeatherData(
         "City geo location"
@@ -63,8 +98,15 @@ type Query {
         "Units of measurement. standard, metric and imperial units are available. If you do not use the units parameter, standard units will be applied by default."
         units: String
     ): WeatherData
-    login(password: String!, username: String!): AuthData
-    renewToken(refreshToken: String!): String
+    login(email: String!, password: String!): AuthData
+    """
+
+    logout
+    returns true if logout was successful
+    """
+    logout(session: String!): Boolean
+    "returns a new accessToken and refreshes the refreshToken"
+    renewToken(refreshToken: String!): AuthTokens
     "Say hello"
     sayHello(
         "Your name"
@@ -104,12 +146,16 @@ type Sys {
     type: String
 }
 
+"User Object"
 type User {
+    "Unique identifier from Database for the user"
     _id: ID
-    fullName: String
+    "Email of the user"
+    email: String!
+    "Name of the user"
     name: String
-    surname: String
-    username: String
+    "Account verified"
+    verified: Boolean
 }
 
 "more info Weather condition codes"
@@ -176,9 +222,16 @@ input CoordInput {
     lon: Float!
 }
 
+"Userdata needed to create a new user"
 input UserInput {
+    "Email of the user"
+    email: String!
+    "Name of the user"
     name: String!
+    """
+
+    Password of the user
+    Stored as a hash
+    """
     password: String!
-    surname: String!
-    username: String!
 }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="IconInputView">
+        <attr format="string" name="hintText"/>
+        <attr format="reference" name="icon"/>
+        <attr format="string" name="autoFillHints"/>
+        <attr format="string" name="inputType"/>
+    </declare-styleable>
+
+</resources>

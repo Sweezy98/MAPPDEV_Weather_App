@@ -1,3 +1,0 @@
-query HelloQuery($name: String!) {
-  sayHello(name: $name)
-}

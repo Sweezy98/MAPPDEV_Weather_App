@@ -1,0 +1,3 @@
+query Logout($session: String!) {
+  logout(session: $session)
+}

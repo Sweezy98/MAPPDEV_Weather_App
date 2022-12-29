@@ -1,14 +1,15 @@
 package at.fh.mappdev.sweather
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
-import android.util.Log
-import android.view.View
 import android.widget.Button
-import android.widget.TextView
-import kotlinx.coroutines.*
+import com.google.android.material.card.MaterialCardView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
@@ -22,15 +23,28 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         job.cancel()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?)  {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        findViewById<Button>(R.id.sayHelloBtn).setOnClickListener {
-            val name = findViewById<TextView>(R.id.nameInput).text.toString()
+
+        val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
+
+        findViewById<Button>(R.id.logoutBtn).setOnClickListener() {
             launch {
-                val response = apolloClient.query(HelloQuery(name=name)).execute()
-                findViewById<TextView>(R.id.HelloMsg).text = response.data?.sayHello
+                val session = sharedPreferences.getString(LoginFragment.SESSION, null)
+                if (session != null) {
+                    val result = apolloClient(applicationContext).query(LogoutQuery(session)).execute()
+                }
             }
+            sharedPreferences.edit().remove(LoginFragment.SESSION).apply()
+            sharedPreferences.edit().remove(LoginFragment.ACCESS_TOKEN).apply()
+            sharedPreferences.edit().remove(LoginFragment.REFRESH_TOKEN).apply()
+            sharedPreferences.edit().remove(LoginFragment.EMAIL).apply()
+            sharedPreferences.edit().remove(LoginFragment.NAME).apply()
+
+            val intent = Intent(this@MainActivity, LoginRegisterActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 }
