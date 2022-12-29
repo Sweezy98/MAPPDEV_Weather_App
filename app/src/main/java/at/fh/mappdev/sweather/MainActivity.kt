@@ -35,16 +35,17 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 if (session != null) {
                     val result = apolloClient(applicationContext).query(LogoutQuery(session)).execute()
                 }
-            }
-            sharedPreferences.edit().remove(LoginFragment.SESSION).apply()
-            sharedPreferences.edit().remove(LoginFragment.ACCESS_TOKEN).apply()
-            sharedPreferences.edit().remove(LoginFragment.REFRESH_TOKEN).apply()
-            sharedPreferences.edit().remove(LoginFragment.EMAIL).apply()
-            sharedPreferences.edit().remove(LoginFragment.NAME).apply()
 
-            val intent = Intent(this@MainActivity, LoginRegisterActivity::class.java)
-            startActivity(intent)
-            finish()
+                sharedPreferences.edit().remove(LoginFragment.SESSION).apply()
+                sharedPreferences.edit().remove(LoginFragment.ACCESS_TOKEN).apply()
+                sharedPreferences.edit().remove(LoginFragment.REFRESH_TOKEN).apply()
+                sharedPreferences.edit().remove(LoginFragment.EMAIL).apply()
+                sharedPreferences.edit().remove(LoginFragment.NAME).apply()
+
+                val intent = Intent(this@MainActivity, LoginRegisterActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
     }
 }
