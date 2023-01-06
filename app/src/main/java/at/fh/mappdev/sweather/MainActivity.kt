@@ -5,6 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.Toast
 import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,5 +49,33 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 finish()
             }
         }
+
+        //locations button
+        findViewById<Button>(R.id.locationBtn).setOnClickListener() {
+            //toast message
+            Toast.makeText(this, "Locations are not implemented yet", Toast.LENGTH_SHORT).show()
+        }
+
+        //settings button
+        findViewById<ImageButton>(R.id.settingsBtn).setOnClickListener() {
+            //val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+            //startActivity(intent)
+            //toast message
+            Toast.makeText(this, "Settings are not implemented yet", Toast.LENGTH_SHORT).show()
+        }
+
+        //favorise button
+        findViewById<ImageButton>(R.id.favoriseBtn).setOnClickListener() {
+            //toast message
+            Toast.makeText(this, "Favorise is not implemented yet", Toast.LENGTH_SHORT).show()
+        }
+
+        //clothes recommendation button
+        findViewById<ImageButton>(R.id.weather_avatar).setOnClickListener() {
+            //toast message
+            Toast.makeText(this, "Clothes recommendation is not implemented yet", Toast.LENGTH_SHORT).show()
+        }
+
+
     }
 }
