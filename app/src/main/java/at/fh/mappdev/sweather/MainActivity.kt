@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -74,6 +75,36 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         findViewById<ImageButton>(R.id.weather_avatar).setOnClickListener() {
             //toast message
             Toast.makeText(this, "Clothes recommendation is not implemented yet", Toast.LENGTH_SHORT).show()
+        }
+
+        //weather card day 0
+        findViewById<CardView>(R.id.Day0).setOnClickListener() {
+            //toast message
+            Toast.makeText(this, "Weather card is not implemented yet", Toast.LENGTH_SHORT).show()
+        }
+
+        //weather card day 1
+        findViewById<CardView>(R.id.Day1).setOnClickListener() {
+            //toast message
+            Toast.makeText(this, "Weather card is not implemented yet", Toast.LENGTH_SHORT).show()
+        }
+
+        //weather card day 2
+        findViewById<CardView>(R.id.Day2).setOnClickListener() {
+            //toast message
+            Toast.makeText(this, "Weather card is not implemented yet", Toast.LENGTH_SHORT).show()
+        }
+
+        //weather card day 3
+        findViewById<CardView>(R.id.Day3).setOnClickListener() {
+            //toast message
+            Toast.makeText(this, "Weather card is not implemented yet", Toast.LENGTH_SHORT).show()
+        }
+
+        //weather card day 4
+        findViewById<CardView>(R.id.Day4).setOnClickListener() {
+            //toast message
+            Toast.makeText(this, "Weather card is not implemented yet", Toast.LENGTH_SHORT).show()
         }
 
 
