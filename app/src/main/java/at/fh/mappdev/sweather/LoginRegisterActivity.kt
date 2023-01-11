@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import androidx.fragment.app.add
 import androidx.fragment.app.commit
 
@@ -25,6 +26,10 @@ class LoginRegisterActivity : AppCompatActivity() {
                 setReorderingAllowed(true)
                 add<LoginFragment>(R.id.login_fragmentContainer)
             }
+        }
+        findViewById<Button>(R.id.ToSettings).setOnClickListener() {
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
         }
     }
 }
