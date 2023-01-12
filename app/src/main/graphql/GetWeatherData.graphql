@@ -1,0 +1,55 @@
+query GetWeatherData($lon: Float!, $lat: Float!, $units: String, $lang: String) {
+  getWeatherData(lon: $lon, lat: $lat, units: $units, lang: $lang) {
+    coord {
+      lon
+      lat
+    }
+    weather {
+      id
+      main
+      description
+      icon
+    }
+    base
+    main {
+      temp
+      feels_like
+      temp_min
+      temp_max
+      pressure
+      humidity
+      sea_level
+      grnd_level
+    }
+    visibility
+    wind {
+      speed
+      deg
+      gust
+    }
+    clouds {
+      all
+    }
+    rain {
+      h1
+      h3
+    }
+    snow {
+      h1
+      h3
+    }
+    dt
+    sys {
+      type
+      id
+      message
+      country
+      sunrise
+      sunset
+    }
+    timezone
+    id
+    name
+    cod
+  }
+}
