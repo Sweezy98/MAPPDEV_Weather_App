@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 if (session != null) {
                     val result = apolloClient(applicationContext).query(LogoutQuery(session)).execute()
                 }
-
                 sharedPreferences.edit().remove(LoginFragment.SESSION).apply()
                 sharedPreferences.edit().remove(LoginFragment.ACCESS_TOKEN).apply()
                 sharedPreferences.edit().remove(LoginFragment.REFRESH_TOKEN).apply()
@@ -47,5 +46,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 finish()
             }
         }
+        findViewById<Button>(R.id.ToSettings).setOnClickListener { startActivity(Intent(this, SettingsActivity::class.java)) }
     }
 }
