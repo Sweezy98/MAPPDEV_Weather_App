@@ -37,4 +37,14 @@
         android:name="at.fh.mappdev.sweather.LoginFragment"
         tools:layout="@layout/fragment_login" />
 
+    <Button
+        android:id="@+id/ToSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="132dp"
+        android:text="Settings"
+        app:layout_constraintBottom_toBottomOf="@id/login_fragmentContainer"
+        app:layout_constraintEnd_toEndOf="@+id/login_fragmentContainer"
+        app:layout_constraintStart_toStartOf="@+id/login_fragmentContainer" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

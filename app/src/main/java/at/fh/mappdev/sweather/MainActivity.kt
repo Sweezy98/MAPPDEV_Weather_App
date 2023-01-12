@@ -87,7 +87,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             //toast message
             Toast.makeText(this, "Weather card is not implemented yet", Toast.LENGTH_SHORT).show()
         }
-
-
+        
+        findViewById<Button>(R.id.ToSettings).setOnClickListener {
+          startActivity(Intent(this, SettingsActivity::class.java))
+        }
     }
 }
