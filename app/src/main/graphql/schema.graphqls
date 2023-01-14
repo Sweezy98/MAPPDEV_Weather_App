@@ -50,6 +50,29 @@ type Coord {
     lon: Float
 }
 
+"Favourite Object"
+type Favourite {
+    "Unique identifier from Database for the favourite"
+    _id: ID
+    "latitude of the favourite"
+    lat: Float
+    "longitude of the favourite"
+    lon: Float
+    "Name of the favourite"
+    name: String
+}
+
+type Log {
+    "level"
+    level: String
+    "message"
+    message: String
+    "timestamp"
+    timestamp: String
+    "trace (sender of the log)"
+    trace: String
+}
+
 "Main Weather Information"
 type Main {
     "Temperature. This temperature parameter accounts for the human perception of weather. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit."
@@ -73,12 +96,30 @@ type Main {
 type Mutation {
     """
 
+    add a favourite to the current user
+    returns the new favourite list
+    """
+    addFavourite(favourite: FavouriteInput!): [Favourite]
+    """
+
+    change user name
+    returns true if name was changed
+    """
+    changeName(name: String!): Boolean
+    """
+
     change password
     returns true if password was changed
     """
     changePassword(newPassword: String!, oldPassword: String!): Boolean
     "register a new user"
     createUser(user: UserInput!): User
+    """
+
+    remove a favourite from the current user
+    returns the new favourite list
+    """
+    removeFavourite(id: ID!): [Favourite]
 }
 
 type Query {
@@ -89,12 +130,21 @@ type Query {
     returns also true if email was not found (security)
     """
     forgotPassword(email: String!): Boolean
+    "getLogs"
+    getLogs(
+        "limit (default 20)"
+        limit: Int,
+        "offset/page (default 0)"
+        offset: Int
+    ): [Log]
     "Query weather data for a specific location"
     getWeatherData(
-        "City geo location"
-        coords: CoordInput!,
         "You can use this parameter to get the output in your language. (de, en etc.)"
         lang: String,
+        "City geo location, latitude"
+        lat: Float!,
+        "City geo location, longitude"
+        lon: Float!,
         "Units of measurement. standard, metric and imperial units are available. If you do not use the units parameter, standard units will be applied by default."
         units: String
     ): WeatherData
@@ -112,6 +162,16 @@ type Query {
         "Your name"
         name: String!
     ): String
+    "get a list of all sessions"
+    sessions: [Session]
+    "get a single user"
+    user(_id: ID!): User
+    "get a list of all favourites of the current user"
+    userFavourites: [Favourite]
+    "get a list of all sessions of the current user"
+    userSessions: [Session]
+    "get a list of all users"
+    users: [User]
 }
 
 "Rain data"
@@ -120,6 +180,16 @@ type Rain {
     h1: Float
     "Rain volume for the last 3 hours"
     h3: Float
+}
+
+"Session Object"
+type Session {
+    "Unique identifier from Database for the session"
+    _id: ID
+    "User of the session"
+    user: User
+    "valid until"
+    validUntil: String
 }
 
 "Snow data"
@@ -214,12 +284,14 @@ type Wind {
     speed: Float
 }
 
-"City geo location"
-input CoordInput {
-    "City geo location, latitude"
+"Favorite data needed to create a new favourite"
+input FavouriteInput {
+    "latitude of the favourite"
     lat: Float!
-    "City geo location, longitude"
+    "longitude of the favourite"
     lon: Float!
+    "Name of the favourite"
+    name: String!
 }
 
 "Userdata needed to create a new user"
