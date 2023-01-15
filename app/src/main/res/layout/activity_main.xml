@@ -75,12 +75,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:srcCompat="@drawable/ic_launcher_foreground" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="45dp"
-            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/locationBtn">
@@ -89,33 +88,43 @@
                 android:id="@+id/weatherIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:srcCompat="@drawable/cloud2"
-                tools:srcCompat="@drawable/cloud2" />
+                android:layout_marginEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/current_temperature"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/cloud"
+                tools:srcCompat="@drawable/cloud" />
 
             <Space
-                android:layout_width="20dp"
+                android:id="@+id/space13"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                app:layout_constraintBottom_toTopOf="@+id/current_temperature"
+                app:layout_constraintEnd_toStartOf="@+id/current_temperature"
+                app:layout_constraintStart_toEndOf="@+id/weatherIcon"
+                app:layout_constraintTop_toTopOf="@+id/current_temperature" />
 
             <TextView
                 android:id="@+id/current_temperature"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="92dp"
                 android:fontFamily="@font/poppins_bold"
                 android:shadowColor="@color/blue"
-                android:text="13°"
+                android:text="0°"
                 android:textColor="#FFFFFF"
-                android:textSize="64sp" />
+                android:textSize="64sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
@@ -124,54 +133,65 @@
                 android:id="@+id/bottom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/min_temp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/arrow_down" />
 
             <TextView
                 android:id="@+id/min_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="min"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp" />
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/separator"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/separator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:fontFamily="@font/poppins_regular"
                 android:text="|"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp" />
-
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/max_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="max"
                 android:textColor="#FFFFFF"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/separator"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.507" />
 
             <ImageView
                 android:id="@+id/top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/max_temp"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/arrow_up" />
-        </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/locationBtn"
