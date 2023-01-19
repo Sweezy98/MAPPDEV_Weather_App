@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.setTag
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -52,8 +53,19 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         //clothes recommendation button
         findViewById<ImageButton>(R.id.weather_avatar).setOnClickListener() {
+            //which image is displayed
+            val image = findViewById<ImageView>(R.id.weather_avatar).tag.toString()
             //toast message
-            Toast.makeText(this, "Clothes recommendation is not implemented yet", Toast.LENGTH_SHORT).show()
+            when (image) {
+                "jacketgood" -> Toast.makeText(this, "It´s cold outside! You should wear something thick and warm.", Toast.LENGTH_SHORT).show()
+                "jacketbad" -> Toast.makeText(this, "It´s cold outside and weather doesn´t look good! You should wear something thick and warm. Don´t forget your umbrella!", Toast.LENGTH_SHORT).show()
+                "longgood" -> Toast.makeText(this, "It´s a bit chilly today. You should wear something with long sleeves.", Toast.LENGTH_SHORT).show()
+                "longbad" -> Toast.makeText(this, "It´s a bit chilly and weather doesn´t look good! You should wear something with long sleeves. Don´t forget your umbrella!", Toast.LENGTH_SHORT).show()
+                "shortlonggood" -> Toast.makeText(this, "It looks quite nice outside, but don´t go outside dressed too short.", Toast.LENGTH_SHORT).show()
+                "shortlongbad" -> Toast.makeText(this, "Weather doesn´t look that nice today, don´t go outside dressed too short and don´t forget your umbrella.", Toast.LENGTH_SHORT).show()
+                "shortgood" -> Toast.makeText(this, "It´s hot outside! Make sure you wear something short.", Toast.LENGTH_SHORT).show()
+                "shortbad" -> Toast.makeText(this, "It´s hot outside, but weather doesn´t seem nice! Make sure you wear something short and don´t forget your umbrella.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         //weather card day 0
@@ -90,6 +102,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             intent.putExtra("day", 4)
             startActivity(intent)
         }
+
     }
 
     override fun onResume() {
@@ -106,8 +119,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
             val unit: String = sharedPreferences.getString(SettingsActivity.UNIT, "Fahrenheit").toString() //maybe mixed up
 
+            //get lat and lon from shared preferences
+            val lat: Float = sharedPreferences.getFloat(LocationActivity.LAT, 47.0667F)
+            val lon: Float = sharedPreferences.getFloat(LocationActivity.LON, 15.4333F)
+
             //get the current weather data
-            val weatherResult = apolloClient(applicationContext).query(GetWeatherDataQuery(lat = 47.076668, lon = 15.421371)).execute()
+            val weatherResult = apolloClient(applicationContext).query(GetWeatherDataQuery(lat = lat.toDouble(), lon = lon.toDouble())).execute()
             val weather = weatherResult.data?.getWeatherData?.weather?.get(0)?.description
 
             //set location name
@@ -156,6 +173,49 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             findViewById<TextView>(R.id.max_temp).text = tempMax.toString() + "°"
             //set min temperature
             findViewById<TextView>(R.id.min_temp).text = tempMin.toString() + "°"
+
+
+            //set clothing recommendation icons
+            var clothesImage = findViewById<ImageButton>(R.id.weather_avatar)
+            if (weatherIcon == "rain" || weatherIcon == "storm") {
+                when (temp) {
+                    in -50..10 -> {
+                        clothesImage.setImageResource(R.drawable.jacketbad)
+                        clothesImage.tag = "jacketbad"
+                    }
+                    in 11..15 -> {
+                        clothesImage.setImageResource(R.drawable.longbad)
+                        clothesImage.tag = "longbad"
+                    }
+                    in 16..20 -> {
+                        clothesImage.setImageResource(R.drawable.shortlongbad)
+                        clothesImage.tag = "shortlongbad"
+                    }
+                    in 21..50 -> {
+                        clothesImage.setImageResource(R.drawable.shortbad)
+                        clothesImage.tag = "shortbad"
+                    }
+                }
+            } else {
+                when (temp) {
+                    in -50..10 -> {
+                        clothesImage.setImageResource(R.drawable.jacketgood)
+                        clothesImage.tag = "jacketgood"
+                    }
+                    in 11..15 -> {
+                        clothesImage.setImageResource(R.drawable.longgood)
+                        clothesImage.tag = "longgood"
+                    }
+                    in 16..20 -> {
+                        clothesImage.setImageResource(R.drawable.shortlonggood)
+                        clothesImage.tag = "shortlonggood"
+                    }
+                    in 21..50 -> {
+                        clothesImage.setImageResource(R.drawable.shortgood)
+                        clothesImage.tag = "shortgood"
+                    }
+                }
+            }
 
 
             //forecast weather loop
