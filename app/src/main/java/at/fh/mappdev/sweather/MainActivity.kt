@@ -178,7 +178,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             //set clothing recommendation icons
             var clothesImage = findViewById<ImageButton>(R.id.weather_avatar)
             if (weatherIcon == "rain" || weatherIcon == "storm") {
-                when (temp) {
+                when (weatherResult.data?.getWeatherData?.weather?.get(0)?.temps?.cur?.c) {
                     in -50..10 -> {
                         clothesImage.setImageResource(R.drawable.jacketbad)
                         clothesImage.tag = "jacketbad"
@@ -197,7 +197,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                     }
                 }
             } else {
-                when (temp) {
+                when (weatherResult.data?.getWeatherData?.weather?.get(0)?.temps?.cur?.c) {
                     in -50..10 -> {
                         clothesImage.setImageResource(R.drawable.jacketgood)
                         clothesImage.tag = "jacketgood"
