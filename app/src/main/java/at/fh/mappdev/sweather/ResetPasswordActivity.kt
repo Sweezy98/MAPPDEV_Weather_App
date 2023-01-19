@@ -23,9 +23,5 @@ class ResetPasswordActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
-        val Email = sharedPreferences.getString(LoginFragment.EMAIL, null)
-        setContentView(R.layout.activity_password_reset)
-        findViewById<TextView>(R.id.EmailAdress).text = Email
     }
 }
