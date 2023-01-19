@@ -154,18 +154,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="fill_horizontal"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:fontFamily="@font/poppins_semibold"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center"
+                android:text="Adel Tuncer \n Fabio Unterholzer \n Paul Strebenitzer \n Jakob Schweitzer"
+                android:textSize="15sp"
                 app:fontFamily="@font/poppins_regular"
-                android:text="Adel Tuncer \n Fabio Unterholzer \ Paul Strebenitzer \n Jakob Schweitzer"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/Contributors_heading"
                 app:layout_constraintStart_toStartOf="@+id/Contributors_heading"
-                app:layout_constraintTop_toBottomOf="@+id/Contributors_heading"
-                app:layout_constraintBottom_toBottomOf="parent"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/Contributors_heading">
 
             </TextView>
 

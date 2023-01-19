@@ -19,13 +19,13 @@
             android:id="@+id/UserIcon"
             android:layout_width="160dp"
             android:layout_height="160dp"
+            android:layout_marginTop="30dp"
             android:contentDescription="@string/logoDesc"
+            android:scaleType="fitCenter"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="30dp"
-            android:scaleType="fitCenter"
-             />
+            app:srcCompat="@drawable/user" />
 
         <TextView
             android:id="@+id/locations"
@@ -156,10 +156,10 @@
                     android:button="@null"
                     android:checked="true"
                     android:focusedByDefault="true"
-                    android:textColor="@drawable/toggle_switch_background"
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center"
-                    android:text="C°"
+                    android:text="°C"
+                    android:textColor="@drawable/toggle_switch_background"
                     android:textSize="20sp" />
 
                 <RadioButton
@@ -170,14 +170,14 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginBottom="0dp"
                     android:layout_weight="1"
-                    android:checked="false"
-                    android:textColor="@drawable/toggle_switch_background"
-                    android:focusedByDefault="false"
                     android:background="@drawable/toggle_switch_background"
                     android:button="@null"
+                    android:checked="false"
+                    android:focusedByDefault="false"
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center"
-                    android:text="F°"
+                    android:text="°F"
+                    android:textColor="@drawable/toggle_switch_background"
                     android:textSize="20sp" />
 
 

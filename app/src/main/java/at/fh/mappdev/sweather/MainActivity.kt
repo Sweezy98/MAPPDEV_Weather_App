@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //toast loading message
+        Toast.makeText(this@MainActivity, "Loading weather data...", Toast.LENGTH_SHORT).show()
         // Get the current weather
         loadCurrentWeatherData()
 
@@ -56,32 +58,37 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         //weather card day 0
         findViewById<CardView>(R.id.Day0).setOnClickListener() {
-            //toast message
-            Toast.makeText(this, "Weather card is not implemented yet", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@MainActivity, DetailsActivity::class.java)
+            intent.putExtra("day", 0)
+            startActivity(intent)
         }
 
         //weather card day 1
         findViewById<CardView>(R.id.Day1).setOnClickListener() {
-            //toast message
-            Toast.makeText(this, "Weather card is not implemented yet", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@MainActivity, DetailsActivity::class.java)
+            intent.putExtra("day", 1)
+            startActivity(intent)
         }
 
         //weather card day 2
         findViewById<CardView>(R.id.Day2).setOnClickListener() {
-            //toast message
-            Toast.makeText(this, "Weather card is not implemented yet", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@MainActivity, DetailsActivity::class.java)
+            intent.putExtra("day", 2)
+            startActivity(intent)
         }
 
         //weather card day 3
         findViewById<CardView>(R.id.Day3).setOnClickListener() {
-            //toast message
-            Toast.makeText(this, "Weather card is not implemented yet", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@MainActivity, DetailsActivity::class.java)
+            intent.putExtra("day", 3)
+            startActivity(intent)
         }
 
         //weather card day 4
         findViewById<CardView>(R.id.Day4).setOnClickListener() {
-            //toast message
-            Toast.makeText(this, "Weather card is not implemented yet", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this@MainActivity, DetailsActivity::class.java)
+            intent.putExtra("day", 4)
+            startActivity(intent)
         }
     }
 
@@ -94,10 +101,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     //load the current weather data from the API
     private fun loadCurrentWeatherData() {
         launch {
+
             //get unit from shared preferences
             val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
             val unit: String = sharedPreferences.getString(SettingsActivity.UNIT, "Fahrenheit").toString() //maybe mixed up
 
+            //get the current weather data
             val weatherResult = apolloClient(applicationContext).query(GetWeatherDataQuery(lat = 47.076668, lon = 15.421371)).execute()
             val weather = weatherResult.data?.getWeatherData?.weather?.get(0)?.description
 
@@ -105,7 +114,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             val location = weatherResult.data?.getWeatherData?.name
             findViewById<TextView>(R.id.locationBtn).text = location
 
-
+            //check if api returns error
             val error = weatherResult.errors?.get(0)?.message
             if (error != null) {
                 Log.e("MainActivity", error)
@@ -115,10 +124,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 Toast.makeText(this@MainActivity, "Error loading Weather Data.", Toast.LENGTH_SHORT).show()
             }
 
+            //set weather according to shared preferences
             val temp: Int?
             val tempMax: Int?
             val tempMin: Int?
-
             if (unit == "Celsius"){
                 temp = weatherResult.data?.getWeatherData?.weather?.get(0)?.temps?.cur?.c
                 tempMin = weatherResult.data?.getWeatherData?.weather?.get(0)?.temps?.min?.c
@@ -129,8 +138,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 tempMax = weatherResult.data?.getWeatherData?.weather?.get(0)?.temps?.max?.f
             }
 
-            //set current weather icon
-            //set weather icon
+            //get and set current weather icon
             val weatherIcon = weatherResult.data?.getWeatherData?.weather?.get(0)?.icon
             when (weatherIcon) {
                 "cloud" -> findViewById<ImageView>(R.id.weatherIcon).setImageResource(R.drawable.cloud)
@@ -173,21 +181,21 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                     "storm" -> findViewById<ImageView>(dayIconResID).setImageResource(R.drawable.storm)
                 }
 
-                //set short day name
+                //set day name
                 if (i == 0){
                     findViewById<TextView>(dayNameResID).text = "Today"
                 } else {
                     findViewById<TextView>(dayNameResID).text = weatherResult.data?.getWeatherData?.weather?.get(i)?.weekday?.long
                 }
 
-                //set min temperature
+                //set minimum temperature
                 if (unit == "Celsius"){
                     findViewById<TextView>(dayMinTempResID).text = weatherResult.data?.getWeatherData?.weather?.get(i)?.temps?.min?.c.toString() + "°"
                 } else {
                     findViewById<TextView>(dayMinTempResID).text = weatherResult.data?.getWeatherData?.weather?.get(i)?.temps?.min?.f.toString() + "°"
                 }
 
-                //set max temperature
+                //set maximum temperature
                 if (unit == "Celsius"){
                     findViewById<TextView>(dayMaxTempResID).text = weatherResult.data?.getWeatherData?.weather?.get(i)?.temps?.max?.c.toString() + "°"
                 } else {

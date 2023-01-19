@@ -2,10 +2,14 @@ package at.fh.mappdev.sweather
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.android.material.card.MaterialCardView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,6 +30,7 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
 
     companion object {
         const val UNIT = "UNIT"
+        const val IMAGE = "IMAGE"
     }
 
    override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,8 +76,28 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
            val intent = Intent(this@SettingsActivity, AboutActivity::class.java)
            startActivity(intent)
        }
+
+       //allow user to change profile picture
+       findViewById<ImageView>(R.id.UserIcon).setOnClickListener() {
+           val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+           //intent.setDataAndType(Uri.parse("file:///sdcard/"), "image/*");
+           startActivityForResult(intent, 1);
+       }
+
+
    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            val selectedImage: Uri = data.data!!
+            val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
+            sharedPreferences.edit().putString(IMAGE, selectedImage.toString()).apply()
+            findViewById<ImageView>(R.id.UserIcon).setImageURI(selectedImage)
+        }
+    }
+
+    //check what unit is selected
     override fun onResume() {
         super.onResume()
         val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
@@ -81,7 +106,11 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
         if (unit == "Fahrenheit") {
             findViewById<RadioButton>(R.id.Fahrenheit).isChecked = true
         }
+
     }
+
+
+
 }
        /*findViewById<ImageView>(R.id.UserIcon).setOnClickListener() {
            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -96,5 +125,3 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
                imageView.setImageURI(selectedImage)
            }
        }*/
-
-*/
