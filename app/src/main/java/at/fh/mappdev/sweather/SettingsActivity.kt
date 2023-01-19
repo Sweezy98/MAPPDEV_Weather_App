@@ -5,8 +5,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.MediaStore.Audio.Radio
 import android.view.View
 import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
@@ -57,6 +59,17 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
 
        findViewById<MaterialCardView>(R.id.ResetPWDBtn).setOnClickListener() {
            val intent = Intent(this@SettingsActivity, ResetPasswordActivity::class.java)
+           startActivity(intent)
+       }
+
+       findViewById<RadioButton>(R.id.Celsius).setOnClickListener() {
+           sharedPreferences.edit().putString("Unit", "Celsius").apply()
+       }
+       findViewById<RadioButton>(R.id.Fahrenheit).setOnClickListener() {
+           sharedPreferences.edit().putString("Unit", "Fahrenheit").apply()
+       }
+       findViewById<MaterialCardView>(R.id.AboutBtn_card).setOnClickListener() {
+           val intent = Intent(this@SettingsActivity, AboutActivity::class.java)
            startActivity(intent)
        }
    }

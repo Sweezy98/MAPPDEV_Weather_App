@@ -40,10 +40,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         //settings button
         findViewById<ImageButton>(R.id.settingsBtn).setOnClickListener() {
-            //val intent = Intent(this@MainActivity, SettingsActivity::class.java)
-            //startActivity(intent)
+            val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+            startActivity(intent)
             //toast message
-            Toast.makeText(this, "Settings are not implemented yet", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "Settings are not implemented yet", Toast.LENGTH_SHORT).show()
         }
 
         //favorise button
@@ -88,8 +88,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             Toast.makeText(this, "Weather card is not implemented yet", Toast.LENGTH_SHORT).show()
         }
         
-        findViewById<Button>(R.id.ToSettings).setOnClickListener {
-          startActivity(Intent(this, SettingsActivity::class.java))
-        }
+     /*findViewById<Button>(R.id.settingsBtn).setOnClickListener() {
+            val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+            startActivity(intent)
+        }*/
     }
 }

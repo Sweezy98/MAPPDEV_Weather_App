@@ -110,4 +110,5 @@ class LoginFragment : Fragment(R.layout.fragment_login), CoroutineScope {
         val alphaInt = (alpha * 255).toInt()
         return Color.argb(alphaInt, Color.red(baseColor), Color.green(baseColor), Color.blue(baseColor))
     }
+
 }
