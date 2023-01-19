@@ -23,5 +23,6 @@ class ResetPasswordActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_password_reset)
     }
 }
