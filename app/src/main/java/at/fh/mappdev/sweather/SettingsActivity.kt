@@ -61,7 +61,7 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
            }
        }
 
-       findViewById<MaterialCardView>(R.id.ResetPWDBtn).setOnClickListener() {
+       findViewById<MaterialCardView>(R.id.ChangePWDBtn).setOnClickListener() {
            val intent = Intent(this@SettingsActivity, ResetPasswordActivity::class.java)
            startActivity(intent)
        }
