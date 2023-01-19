@@ -8,9 +8,9 @@
         </shape>
 
     </item>
-    <item android:state_checked="false" android:color="@color/black">
+    <item android:state_checked="false" android:color="?attr/toggleUncheckedTextColor">
         <shape>
-            <solid android:color="@color/white"/>
+            <solid android:color="?attr/colorOnPrimaryContainer"/>
             <corners
                 android:radius="60dp"/>
         </shape>

@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <attr name="toggleUncheckedTextColor" format="color" />
     <!-- Base application theme. -->
     <style name="Theme.Sweather" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -13,5 +14,6 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="toggleUncheckedTextColor">@color/white</item>
     </style>
 </resources>
