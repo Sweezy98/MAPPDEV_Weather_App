@@ -27,9 +27,5 @@ class LoginRegisterActivity : AppCompatActivity() {
                 add<LoginFragment>(R.id.login_fragmentContainer)
             }
         }
-        findViewById<Button>(R.id.ToSettings).setOnClickListener() {
-            val intent = Intent(this, SettingsActivity::class.java)
-            startActivity(intent)
-        }
     }
 }

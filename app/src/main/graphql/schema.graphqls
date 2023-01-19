@@ -36,20 +36,6 @@ type AuthTokens {
     refreshToken: String
 }
 
-"Clouds data"
-type Clouds {
-    "Cloudiness, %"
-    all: Int
-}
-
-"City geo location"
-type Coord {
-    "City geo location, latitude"
-    lat: Float
-    "City geo location, longitude"
-    lon: Float
-}
-
 "Favourite Object"
 type Favourite {
     "Unique identifier from Database for the favourite"
@@ -71,26 +57,6 @@ type Log {
     timestamp: String
     "trace (sender of the log)"
     trace: String
-}
-
-"Main Weather Information"
-type Main {
-    "Temperature. This temperature parameter accounts for the human perception of weather. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit."
-    feels_like: Float
-    "Atmospheric pressure on the ground level, hPa"
-    grnd_level: Int
-    "Humidity, %"
-    humidity: Int
-    "Atmospheric pressure on the sea level, hPa"
-    pressure: Int
-    "Atmospheric pressure on the sea level, hPa"
-    sea_level: Int
-    "Temperature. Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit."
-    temp: Float
-    "Maximum temperature at the moment. This is deviation from current temp that is possible for large cities and megalopolises geographically expanded (use these parameter optionally). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit."
-    temp_max: Float
-    "Minimum temperature at the moment. This is deviation from current temp that is possible for large cities and megalopolises geographically expanded (use these parameter optionally). Unit Default: Kelvin, Metric: Celsius, Imperial: Fahrenheit."
-    temp_min: Float
 }
 
 type Mutation {
@@ -139,12 +105,10 @@ type Query {
     ): [Log]
     "Query weather data for a specific location"
     getWeatherData(
-        "City geo location, latitude"
+        "Latitude of the location"
         lat: Float!,
-        "City geo location, longitude"
-        lon: Float!,
-        "Units of measurement. standard, metric and imperial units are available. If you do not use the units parameter, standard units will be applied by default."
-        units: String!
+        "Longitude of the location"
+        lon: Float!
     ): WeatherData
     login(email: String!, password: String!): AuthData
     """
@@ -172,14 +136,6 @@ type Query {
     users: [User]
 }
 
-"Rain data"
-type Rain {
-    "Rain volume for the last 1 hours"
-    h1: Float
-    "Rain volume for the last 3 hours"
-    h3: Float
-}
-
 "Session Object"
 type Session {
     "Unique identifier from Database for the session"
@@ -190,28 +146,24 @@ type Session {
     validUntil: String
 }
 
-"Snow data"
-type Snow {
-    "Snow volume for the last 1 hours"
-    h1: Float
-    "Snow volume for the last 3 hours"
-    h3: Float
+"Temperature, with units Celsius and Fahrenheit"
+type Temperature {
+    "Temperature. Unit Celsius"
+    c: Float
+    "Temperature. Unit Fahrenheit"
+    f: Float
 }
 
-"System Parameters"
-type Sys {
-    "country code (AT, DE etc.)"
-    country: String
-    "Internal parameter"
-    id: String
-    "Internal parameter"
-    message: String
-    "Sunrise time, unix, UTC"
-    sunrise: Int
-    "Sunset time, unix, UTC"
-    sunset: Int
-    "Internal parameter"
-    type: String
+"Temperature data"
+type TemperatureData {
+    "Current temperature. Null if not the current day."
+    cur: Temperature
+    "Temperature. This temperature parameter accounts for the human perception of weather."
+    feel: Temperature
+    "Maximum temperature at the moment. This is deviation from current temp that is possible for large cities and megalopolises geographically expanded (use these parameter optionally)."
+    max: Temperature
+    "Minimum temperature at the moment. This is deviation from current temp that is possible for large cities and megalopolises geographically expanded (use these parameter optionally)."
+    min: Temperature
 }
 
 "User Object"
@@ -226,59 +178,63 @@ type User {
     verified: Boolean
 }
 
-"more info Weather condition codes"
-type Weather {
-    "Weather condition within the group. You can get the output in your language."
-    description: String
-    "Weather icon id"
-    icon: String
-    "Weather condition id"
-    id: Int
-    "Group of weather parameters (Rain, Snow, Extreme etc.)"
-    main: String
+"Weather data for a specific location"
+type WeatherData {
+    "Clothing recommendation"
+    clothing: String
+    "Location name"
+    name: String
+    "Array of weather data"
+    weather: [WeatherDataForecast]
 }
 
-"Weather data"
-type WeatherData {
-    "Internal parameter"
-    base: String
-    "Clouds data"
-    clouds: Clouds
-    "Internal parameter"
-    cod: Int
-    "City geo location"
-    coord: Coord
-    "Time of data calculation, unix, UTC"
-    dt: Int
-    "City ID. Please note that built-in geocoder functionality has been deprecated."
-    id: Int
-    "Main Weather Information"
-    main: Main
-    "City name. Please note that built-in geocoder functionality has been deprecated."
-    name: String
-    "Rain data"
-    rain: Rain
-    "Snow data"
-    snow: Snow
-    "System parameters"
-    sys: Sys
-    "Shift in seconds from UTC"
-    timezone: Int
+"Weather data for a specific day"
+type WeatherDataForecast {
+    "Weather code"
+    code: Int
+    "Date of the forecast"
+    date: String
+    "Description of the weather"
+    description: String
+    "Weather Details"
+    details: WeatherDetails
+    "Weather icon"
+    icon: String
+    "Temperature data"
+    temps: TemperatureData
+    "Day of the week"
+    weekday: Weekday
+}
+
+"Weather Details"
+type WeatherDetails {
+    "Humidity, %"
+    humidity: Float
+    "Rain volume for the last 3 hours"
+    percipitation: Float
+    "Atmospheric pressure on the sea level, hPa"
+    pressure: Float
     "Visibility, meter"
-    visibility: Int
-    "More info Weather condition codes"
-    weather: [Weather]
+    visibility: Float
     "Wind data"
     wind: Wind
+}
+
+"Day of the week"
+type Weekday {
+    "Day of the week in long format"
+    long: String
+    "Day of the week in short format"
+    short: String
 }
 
 "Wind data"
 type Wind {
     "Wind direction, degrees (meteorological)"
     deg: Int
-    "Wind gust. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour."
+    "Wind gust. Unit Default: meter/sec"
     gust: Float
-    "Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour."
+    "Wind speed. Unit Default: meter/sec"
     speed: Float
 }
 

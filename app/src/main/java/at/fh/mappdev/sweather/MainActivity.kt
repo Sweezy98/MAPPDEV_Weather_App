@@ -12,7 +12,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
-import at.fh.mappdev.sweather.type.Weather
 import com.apollographql.apollo3.api.Optional
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -100,17 +99,17 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     }
 
     //load the current weather data from the API
-    fun loadCurrentWeatherData() {
+    private fun loadCurrentWeatherData() {
         launch {
             //get unit from shared preferences
             val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
             val unit: String = sharedPreferences.getString(SettingsActivity.UNIT, "imperial").toString()
 
-            val weatherResult = apolloClient(applicationContext).query(GetWeatherDataQuery(lat = 47.076668, lon = 15.421371, units = unit)).execute()
-            val weather = weatherResult.data?.getWeatherData?.weather?.get(0)?.main
-            val temp = weatherResult.data?.getWeatherData?.main?.temp
-            val tempMin = weatherResult.data?.getWeatherData?.main?.temp_min
-            val tempMax = weatherResult.data?.getWeatherData?.main?.temp_max
+            val weatherResult = apolloClient(applicationContext).query(GetWeatherDataQuery(lat = 47.076668, lon = 15.421371)).execute()
+            val weather = weatherResult.data?.getWeatherData?.weather?.get(0)?.description
+            val temp = weatherResult.data?.getWeatherData?.weather?.get(0)?.temps?.cur?.c
+            val tempMin = weatherResult.data?.getWeatherData?.weather?.get(0)?.temps?.min?.c
+            val tempMax = weatherResult.data?.getWeatherData?.weather?.get(0)?.temps?.max?.c
 
             //debug
             Log.e("Weather", weather.toString())

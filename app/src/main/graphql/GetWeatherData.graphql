@@ -1,55 +1,45 @@
-query GetWeatherData($lon: Float!, $lat: Float!, $units: String!) {
-  getWeatherData(lon: $lon, lat: $lat, units: $units) {
-    coord {
-      lon
-      lat
-    }
+query GetWeatherData($lat: Float!, $lon: Float!) {
+  getWeatherData(lat: $lat, lon: $lon) {
+    name
     weather {
-      id
-      main
+      date
+      weekday {
+        long
+        short
+      }
       description
+      temps {
+        cur {
+          c
+          f
+        }
+        min {
+          c
+          f
+        }
+        max {
+          c
+          f
+        }
+        feel {
+          c
+          f
+        }
+      }
+      details {
+        humidity
+        percipitation
+        visibility
+        wind {
+          speed
+          deg
+          gust
+        }
+        pressure
+      }
+      code
       icon
     }
-    base
-    main {
-      temp
-      feels_like
-      temp_min
-      temp_max
-      pressure
-      humidity
-      sea_level
-      grnd_level
-    }
-    visibility
-    wind {
-      speed
-      deg
-      gust
-    }
-    clouds {
-      all
-    }
-    rain {
-      h1
-      h3
-    }
-    snow {
-      h1
-      h3
-    }
-    dt
-    sys {
-      type
-      id
-      message
-      country
-      sunrise
-      sunset
-    }
-    timezone
-    id
-    name
-    cod
+    clothing
   }
 }
