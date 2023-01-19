@@ -285,6 +285,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/cloud"
+                        app:tint="?colorSecondary"
                         tools:srcCompat="@drawable/cloud" />
 
                     <TextView
@@ -366,6 +367,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/cloud"
+                        app:tint="?colorSecondary"
                         tools:srcCompat="@drawable/cloud" />
 
                     <TextView
@@ -446,6 +448,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/cloud"
+                        app:tint="?colorSecondary"
                         tools:srcCompat="@drawable/cloud" />
 
                     <TextView
@@ -526,6 +529,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/cloud"
+                        app:tint="?colorSecondary"
                         tools:srcCompat="@drawable/cloud" />
 
                     <TextView
@@ -606,6 +610,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/cloud"
+                        app:tint="?colorSecondary"
                         tools:srcCompat="@drawable/cloud" />
 
                     <TextView
