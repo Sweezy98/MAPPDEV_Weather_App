@@ -3,6 +3,10 @@ package at.fh.mappdev.sweather
 import android.content.Context
 import android.util.Log
 import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.cache.normalized.FetchPolicy
+import com.apollographql.apollo3.cache.normalized.fetchPolicy
+import com.apollographql.apollo3.cache.normalized.normalizedCache
+import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo3.network.okHttpClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -70,6 +74,8 @@ private class AuthorizationInterceptor(val context: Context): Interceptor, Corou
     }
 }
 
+val sqlNormalizedCacheFactory = SqlNormalizedCacheFactory("apollo.db")
+
 fun apolloClient(context: Context): ApolloClient {
     val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(AuthorizationInterceptor(context))
@@ -77,6 +83,8 @@ fun apolloClient(context: Context): ApolloClient {
 
     return ApolloClient.Builder()
         .serverUrl("https://api.mappdev.jslabs.at/api/v1/graphql")
+        .normalizedCache(sqlNormalizedCacheFactory)
+        .fetchPolicy(FetchPolicy.NetworkFirst)
         .okHttpClient(okHttpClient)
         .build()
 }
