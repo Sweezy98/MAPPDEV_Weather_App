@@ -29,6 +29,10 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
         job.cancel()
     }
 
+    companion object {
+        const val UNIT = "UNIT"
+    }
+
    override fun onCreate(savedInstanceState: Bundle?) {
        super.onCreate(savedInstanceState)
        val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
@@ -73,6 +77,16 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
            startActivity(intent)
        }
    }
+
+    override fun onResume() {
+        super.onResume()
+        val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
+        val unit = sharedPreferences.getString(UNIT, "metric")
+        //if unit is imperial, set the radio button to imperial
+        if (unit == "imperial") {
+            findViewById<RadioButton>(R.id.Fahrenheit).isChecked = true
+        }
+    }
 }
        /*findViewById<ImageView>(R.id.UserIcon).setOnClickListener() {
            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
