@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.card.MaterialCardView
@@ -25,6 +26,10 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
     override fun onDestroy() {
         super.onDestroy()
         job.cancel()
+    }
+
+    companion object {
+        const val UNIT = "UNIT"
     }
 
    override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +64,24 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
            val intent = Intent(this@SettingsActivity, ResetPasswordActivity::class.java)
            startActivity(intent)
        }
+
+       findViewById<RadioButton>(R.id.Celsius).setOnClickListener() {
+           sharedPreferences.edit().putString(UNIT, "metric").apply()
+       }
+       findViewById<RadioButton>(R.id.Fahrenheit).setOnClickListener() {
+           sharedPreferences.edit().putString(UNIT, "imperial").apply()
+       }
    }
+
+    override fun onResume() {
+        super.onResume()
+        val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
+        val unit = sharedPreferences.getString(UNIT, "metric")
+        //if unit is imperial, set the radio button to imperial
+        if (unit == "imperial") {
+            findViewById<RadioButton>(R.id.Fahrenheit).isChecked = true
+        }
+    }
 }
        /*findViewById<ImageView>(R.id.UserIcon).setOnClickListener() {
            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)

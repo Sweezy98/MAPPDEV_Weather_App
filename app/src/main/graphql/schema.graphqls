@@ -139,14 +139,12 @@ type Query {
     ): [Log]
     "Query weather data for a specific location"
     getWeatherData(
-        "You can use this parameter to get the output in your language. (de, en etc.)"
-        lang: String,
         "City geo location, latitude"
         lat: Float!,
         "City geo location, longitude"
         lon: Float!,
         "Units of measurement. standard, metric and imperial units are available. If you do not use the units parameter, standard units will be applied by default."
-        units: String
+        units: String!
     ): WeatherData
     login(email: String!, password: String!): AuthData
     """

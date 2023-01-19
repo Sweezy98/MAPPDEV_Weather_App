@@ -1,5 +1,5 @@
-query GetWeatherData($lon: Float!, $lat: Float!, $units: String, $lang: String) {
-  getWeatherData(lon: $lon, lat: $lat, units: $units, lang: $lang) {
+query GetWeatherData($lon: Float!, $lat: Float!, $units: String!) {
+  getWeatherData(lon: $lon, lat: $lat, units: $units) {
     coord {
       lon
       lat
