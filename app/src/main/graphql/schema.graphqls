@@ -149,9 +149,9 @@ type Session {
 "Temperature, with units Celsius and Fahrenheit"
 type Temperature {
     "Temperature. Unit Celsius"
-    c: Float
+    c: Int
     "Temperature. Unit Fahrenheit"
-    f: Float
+    f: Int
 }
 
 "Temperature data"

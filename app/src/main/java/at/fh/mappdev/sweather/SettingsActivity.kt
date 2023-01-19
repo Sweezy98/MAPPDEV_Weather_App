@@ -2,12 +2,7 @@ package at.fh.mappdev.sweather
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.provider.MediaStore.Audio.Radio
-import android.view.View
-import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -38,7 +33,7 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
        val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
        val name = sharedPreferences.getString(LoginFragment.NAME, null)
        setContentView(R.layout.activity_settings)
-       findViewById<TextView>(R.id.Username).text = name
+       findViewById<TextView>(R.id.locations).text = name
 
 
        findViewById<MaterialCardView>(R.id.logoutBtn_card).setOnClickListener() {
@@ -67,10 +62,10 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
        }
 
        findViewById<RadioButton>(R.id.Celsius).setOnClickListener() {
-           sharedPreferences.edit().putString("Unit", "Celsius").apply()
+           sharedPreferences.edit().putString(UNIT, "Celsius").apply()
        }
        findViewById<RadioButton>(R.id.Fahrenheit).setOnClickListener() {
-           sharedPreferences.edit().putString("Unit", "Fahrenheit").apply()
+           sharedPreferences.edit().putString(UNIT, "Fahrenheit").apply()
        }
        findViewById<MaterialCardView>(R.id.AboutBtn_card).setOnClickListener() {
            val intent = Intent(this@SettingsActivity, AboutActivity::class.java)
@@ -81,9 +76,9 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
     override fun onResume() {
         super.onResume()
         val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
-        val unit = sharedPreferences.getString(UNIT, "metric")
+        val unit = sharedPreferences.getString(UNIT, "Celsius")
         //if unit is imperial, set the radio button to imperial
-        if (unit == "imperial") {
+        if (unit == "Fahrenheit") {
             findViewById<RadioButton>(R.id.Fahrenheit).isChecked = true
         }
     }
