@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                         )
                     )).execute()
                     //add favorite to shared preferences
-                    sharedPreferences.edit().putString(LocationActivity.FAVORITE_ID, favId).apply()
+                    sharedPreferences.edit().putString(LocationActivity.FAVORITE_ID, result?.data?.addFavourite?.last()?._id).apply()
                     //set icon
                     findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.favorised)
                 }
