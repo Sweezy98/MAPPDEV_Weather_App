@@ -1,0 +1,8 @@
+query UserFavourites {
+    userFavourites {
+        _id
+        name
+        lat
+        lon
+    }
+}

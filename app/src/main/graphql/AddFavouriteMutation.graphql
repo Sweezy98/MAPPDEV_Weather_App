@@ -1,0 +1,8 @@
+mutation AddFavourite($favourite: FavouriteInput!) {
+    addFavourite(favourite: $favourite) {
+        _id
+        name
+        lat
+        lon
+    }
+}

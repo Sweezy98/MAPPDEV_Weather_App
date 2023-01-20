@@ -36,7 +36,6 @@ class LocationPredictionAdapter(private val clickListener: (String) -> Unit) : R
     }
 }
 
-//Class LessonViewHolder with Higher Order Function clickListener
 class PredictionViewHolder(itemView: View, private val clickListener: (String) -> Unit) : RecyclerView.ViewHolder(itemView) {
     fun bindItem(prediction: LocationActivity.Prediction) {
         itemView.findViewById<TextView>(R.id.locationName).text = prediction.name

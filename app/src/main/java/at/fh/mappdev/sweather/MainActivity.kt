@@ -7,6 +7,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.setTag
+import at.fh.mappdev.sweather.type.FavouriteInput
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -47,8 +48,36 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         //favorite button
         findViewById<ImageButton>(R.id.favoriseBtn).setOnClickListener() {
-            //toast message
-            Toast.makeText(this, "Favorise is not implemented yet", Toast.LENGTH_SHORT).show()
+            launch {
+                val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
+                val lat: Float = sharedPreferences.getFloat(LocationActivity.LAT, 47.0667F) //default coordinates set for Graz
+                val lon: Float = sharedPreferences.getFloat(LocationActivity.LON, 15.4333F)
+                val name: String = sharedPreferences.getString(LocationActivity.LOCATION_NAME, "Graz, AT").toString()
+                val favId: String = sharedPreferences.getString(LocationActivity.FAVORITE_ID, null).toString()
+
+                if (favId != "null") {
+                    //delete favorite on server
+                    val result = apolloClient(applicationContext).mutation(RemoveFavouriteMutation(favId)).execute()
+                    //remove favorite from shared preferences
+                    sharedPreferences.edit().putString(LocationActivity.FAVORITE_ID, null).apply()
+                    //set icon
+                    findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.not_favorised)
+                } else {
+                    //add favorite on server
+                    val result = apolloClient(applicationContext).mutation(AddFavouriteMutation(
+                        FavouriteInput(
+                            lat.toDouble(),
+                            lon.toDouble(),
+                            name
+                        )
+                    )).execute()
+                    //add favorite to shared preferences
+                    sharedPreferences.edit().putString(LocationActivity.FAVORITE_ID, favId).apply()
+                    //set icon
+                    findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.favorised)
+                }
+            }
+
         }
 
         //clothes recommendation button
@@ -124,6 +153,18 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             //get lat and lon from shared preferences
             val lat: Float = sharedPreferences.getFloat(LocationActivity.LAT, 47.0667F) //default coordinates set for Graz
             val lon: Float = sharedPreferences.getFloat(LocationActivity.LON, 15.4333F)
+
+            //get favourite id from shared preferences
+            val favId: String = sharedPreferences.getString(LocationActivity.FAVORITE_ID, null).toString()
+
+            if (favId != "null") {
+                //set favorised icon
+                findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.favorised)
+            }
+            else {
+                //set not favorised icon
+                findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.not_favorised)
+            }
 
             //get the current weather data
             val weatherResult = apolloClient(applicationContext).query(GetWeatherDataQuery(lat = lat.toDouble(), lon = lon.toDouble())).execute()

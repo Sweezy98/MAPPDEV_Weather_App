@@ -1,0 +1,8 @@
+mutation RemoveFavourite($removeFavouriteId: ID!) {
+    removeFavourite(id: $removeFavouriteId) {
+        _id
+        name
+        lat
+        lon
+    }
+}

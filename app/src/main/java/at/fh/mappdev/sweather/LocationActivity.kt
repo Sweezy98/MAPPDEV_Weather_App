@@ -1,12 +1,18 @@
 package at.fh.mappdev.sweather
 
 import android.content.Context
+import android.graphics.Color
+import android.opengl.Visibility
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.EditText
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.common.api.ApiException
@@ -17,13 +23,30 @@ import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
+import com.google.android.material.card.MaterialCardView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 
-class LocationActivity : AppCompatActivity() {
+class LocationActivity : AppCompatActivity(), CoroutineScope {
+    private var job: Job = Job()
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
+
     companion object {
         const val LAT = "LAT"
         const val LON = "LON"
         const val LOCATION_NAME = "LOCATION_NAME"
+        const val FAVORITE_ID = "FAVORITE_ID"
     }
 
     private val textWatcher = object : TextWatcher {
@@ -34,13 +57,10 @@ class LocationActivity : AppCompatActivity() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
             // update the list of predictions
             getPlacePrediction(s.toString())
-            //for (prediction in predictions) {
-            //    Log.d("LocationActivity", prediction.name)
-            //}
         }
     }
 
-    val predictionAdapter = LocationPredictionAdapter() {
+    private val predictionAdapter = LocationPredictionAdapter() {
         // get place details from Places with location id (it)
         val places = Places.createClient(this)
         val placeFields = listOf(Place.Field.LAT_LNG, Place.Field.NAME, Place.Field.ADDRESS_COMPONENTS)
@@ -50,10 +70,15 @@ class LocationActivity : AppCompatActivity() {
                 val lat = place.latLng?.latitude
                 val lon = place.latLng?.longitude
                 val name = place.name + ", " + place.addressComponents.asList()[3].shortName
+
+                // check if location is already in favorites list
+                val favId = favouriteAdapter.isFavourite(name, lat!!, lon!!)
+
                 //Set sharedPreferences
                 val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
                 sharedPreferences.edit().putFloat(LAT, place.latLng.latitude.toFloat()).apply()
                 sharedPreferences.edit().putFloat(LON, place.latLng.longitude.toFloat()).apply()
+                sharedPreferences.edit().putString(FAVORITE_ID, favId).apply()
                 sharedPreferences.edit().putString(LOCATION_NAME, name).apply()
                 finish()
             }.addOnFailureListener { exception ->
@@ -61,10 +86,36 @@ class LocationActivity : AppCompatActivity() {
                     Log.e("LocationActivity", "Place not found: ${exception.statusCode}")
                 }
             }
-
-
     }
 
+    private val favouriteAdapter = FavouriteAdapter( {
+        val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
+        sharedPreferences.edit().putFloat(LAT, it!!.lat!!.toFloat()).apply()
+        sharedPreferences.edit().putFloat(LON, it!!.lon!!.toFloat()).apply()
+        sharedPreferences.edit().putString(FAVORITE_ID, it!!._id!!).apply()
+        sharedPreferences.edit().putString(LOCATION_NAME, it.name).apply()
+        finish()
+    },
+        {
+            val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
+            val name: String = sharedPreferences.getString(LOCATION_NAME, null).toString()
+
+            // check if location to delete is the current location
+            if (name == it!!.name!!) {
+                sharedPreferences.edit().putString(FAVORITE_ID, null).apply()
+            }
+
+            removeFavourite(it!!._id!!)
+            launch {
+                val result = apolloClient(applicationContext).mutation(RemoveFavouriteMutation(it!!._id!!)).execute()
+            }
+        })
+
+    private fun removeFavourite(id: String) {
+        favouriteAdapter.removeFavourite(id)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location)
@@ -73,38 +124,40 @@ class LocationActivity : AppCompatActivity() {
 
         findViewById<EditText>(R.id.editLocationName).addTextChangedListener(textWatcher)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.predictionsRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = predictionAdapter
+        val predictionsRecyclerView = findViewById<RecyclerView>(R.id.predictionsRecyclerView)
+        predictionsRecyclerView.layoutManager = LinearLayoutManager(this)
+        predictionsRecyclerView.adapter = predictionAdapter
 
-        /*Places.initialize(applicationContext, "AIzaSyAVn85NCkPwc9-k06cNj0U2b1-lZDCdkfs")
+        val favouritesRecyclerView = findViewById<RecyclerView>(R.id.favouritesRecyclerView)
+        favouritesRecyclerView.layoutManager = LinearLayoutManager(this)
+        favouritesRecyclerView.adapter = favouriteAdapter
 
-        // Initialize the AutocompleteSupportFragment.
-        val autocompleteFragment =
-            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
-                    as AutocompleteSupportFragment
 
-        // Specify the types of place data to return.
-        autocompleteFragment.setPlaceFields(listOf(Place.Field.LAT_LNG, Place.Field.NAME, Place.Field.ADDRESS_COMPONENTS))
 
-        // Set up a PlaceSelectionListener to handle the response.
-        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onPlaceSelected(place: Place) {
-                //Set sharedPreferences
-                val locationName = place.name + ", " + place.addressComponents.asList()[3].shortName
-                val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
-                sharedPreferences.edit().putFloat(LAT, place.latLng.latitude.toFloat()).apply()
-                sharedPreferences.edit().putFloat(LON, place.latLng.longitude.toFloat()).apply()
-                sharedPreferences.edit().putString(LOCATION_NAME, locationName).apply()
-                finish()
+
+        findViewById<EditText>(R.id.editLocationName).setOnFocusChangeListener() { _, hasFocus ->
+            if (hasFocus) {
+                findViewById<MaterialCardView>(R.id.locationSearchbar).strokeWidth = 4
+                findViewById<MaterialCardView>(R.id.locationSearchbar).outlineAmbientShadowColor = getColorWithAlpha(R.color.blue, 0.5f)
+                findViewById<MaterialCardView>(R.id.locationPredictions).strokeWidth = 4
+                findViewById<MaterialCardView>(R.id.locationPredictions).outlineAmbientShadowColor = getColorWithAlpha(R.color.blue, 0.5f)
+                findViewById<MaterialCardView>(R.id.locationPredictions).visibility = View.VISIBLE
+            } else {
+                findViewById<MaterialCardView>(R.id.locationSearchbar).strokeWidth = 0
+                findViewById<MaterialCardView>(R.id.locationSearchbar).outlineAmbientShadowColor = ResourcesCompat.getColor(resources, R.color.defaultOutlineAmbientShadowColor, null)
+                findViewById<MaterialCardView>(R.id.locationPredictions).strokeWidth = 0
+                findViewById<MaterialCardView>(R.id.locationPredictions).outlineAmbientShadowColor = ResourcesCompat.getColor(resources, R.color.defaultOutlineAmbientShadowColor, null)
+                findViewById<MaterialCardView>(R.id.locationPredictions).visibility = View.GONE
             }
+        }
 
-            override fun onError(status: Status) {
-                // TODO: Handle the error.
-                Log.i(this.toString(), "An error occurred: $status")
+        launch {
+            val favouriteResult = apolloClient(applicationContext).query(UserFavouritesQuery()).execute()
+            val favourites = favouriteResult?.data?.userFavourites
+            if (favourites != null) {
+                favouriteAdapter.updateList(favourites)
             }
-        })*/
-
+        }
     }
 
     // prediction object with name, country and id
@@ -145,5 +198,11 @@ class LocationActivity : AppCompatActivity() {
                 }
             }
 
+    }
+
+    private fun getColorWithAlpha(color: Int, alpha: Float): Int {
+        val baseColor = ResourcesCompat.getColor(resources, color, null)
+        val alphaInt = (alpha * 255).toInt()
+        return Color.argb(alphaInt, Color.red(baseColor), Color.green(baseColor), Color.blue(baseColor))
     }
 }
