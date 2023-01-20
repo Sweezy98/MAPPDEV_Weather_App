@@ -115,21 +115,18 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     private fun loadCurrentWeatherData() {
         launch {
 
+            Log.e("MainActivity", "HELLO")
+
             //get unit from shared preferences
             val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
-            val unit: String = sharedPreferences.getString(SettingsActivity.UNIT, "Fahrenheit").toString() //maybe mixed up
+            val unit: String = sharedPreferences.getString(SettingsActivity.UNIT, "Celsius").toString() //maybe mixed up
 
             //get lat and lon from shared preferences
-            val lat: Float = sharedPreferences.getFloat(LocationActivity.LAT, 47.0667F)
+            val lat: Float = sharedPreferences.getFloat(LocationActivity.LAT, 47.0667F) //default coordinates set for Graz
             val lon: Float = sharedPreferences.getFloat(LocationActivity.LON, 15.4333F)
 
             //get the current weather data
             val weatherResult = apolloClient(applicationContext).query(GetWeatherDataQuery(lat = lat.toDouble(), lon = lon.toDouble())).execute()
-            val weather = weatherResult.data?.getWeatherData?.weather?.get(0)?.description
-
-            //set location name
-            val location = weatherResult.data?.getWeatherData?.name
-            findViewById<TextView>(R.id.locationBtn).text = location
 
             //check if api returns error
             val error = weatherResult.errors?.get(0)?.message
@@ -140,6 +137,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 //toast message
                 Toast.makeText(this@MainActivity, "Error loading Weather Data.", Toast.LENGTH_SHORT).show()
             }
+
+            //set location name
+            val location = weatherResult.data?.getWeatherData?.name
+            findViewById<TextView>(R.id.locationBtn).text = location
 
             //set weather according to shared preferences
             val temp: Int?
@@ -164,6 +165,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 "rain" -> findViewById<ImageView>(R.id.weatherIcon).setImageResource(R.drawable.rain)
                 "snow" -> findViewById<ImageView>(R.id.weatherIcon).setImageResource(R.drawable.snow)
                 "storm" -> findViewById<ImageView>(R.id.weatherIcon).setImageResource(R.drawable.storm)
+                //else -> findViewById<ImageView>(R.id.weatherIcon).setImageResource(R.drawable.warning)
             }
             //set color theme of icon
             findViewById<ImageView>(R.id.weatherIcon).setColorFilter(resources.getColor(R.color.white))

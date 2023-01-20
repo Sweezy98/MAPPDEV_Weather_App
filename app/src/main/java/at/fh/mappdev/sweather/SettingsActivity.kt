@@ -77,25 +77,8 @@ class SettingsActivity : AppCompatActivity(), CoroutineScope {
            startActivity(intent)
        }
 
-       //allow user to change profile picture
-       findViewById<ImageView>(R.id.UserIcon).setOnClickListener() {
-           val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-           //intent.setDataAndType(Uri.parse("file:///sdcard/"), "image/*");
-           startActivityForResult(intent, 1);
-       }
-
 
    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            val selectedImage: Uri = data.data!!
-            val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
-            sharedPreferences.edit().putString(IMAGE, selectedImage.toString()).apply()
-            findViewById<ImageView>(R.id.UserIcon).setImageURI(selectedImage)
-        }
-    }
 
     //check what unit is selected
     override fun onResume() {
