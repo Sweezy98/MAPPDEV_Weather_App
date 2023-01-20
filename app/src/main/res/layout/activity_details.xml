@@ -266,9 +266,9 @@
             android:id="@+id/details_scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck">
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck"
+            tools:layout_editor_absoluteX="16dp">
 
             <LinearLayout
                 android:id="@+id/container"
