@@ -21,21 +21,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="30dp" />
+            app:layout_constraintGuide_percent="0.1" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/details_guideline_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="29dp" />
+            app:layout_constraintGuide_percent="0.9" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/details_guideline_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.1" />
+            app:layout_constraintGuide_percent="0.08" />
 
         <TextView
             android:id="@+id/details_location"
@@ -55,7 +55,6 @@
             android:id="@+id/details_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
             android:fontFamily="@font/poppins_bold"
             android:shadowDx="10"
             android:shadowDy="10"
@@ -64,8 +63,24 @@
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="@+id/details_location"
-            app:layout_constraintStart_toEndOf="@+id/details_location"
-            app:layout_constraintTop_toTopOf="@+id/details_location" />
+            app:layout_constraintEnd_toStartOf="@+id/details_guideline_right"
+            app:layout_constraintTop_toTopOf="@+id/details_guideline_top"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/details_weekday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-8dp"
+            android:fontFamily="@font/poppins_regular"
+            android:shadowDx="10"
+            android:shadowDy="10"
+            android:shadowRadius="10"
+            android:text="Weekday"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/details_location"
+            app:layout_constraintTop_toBottomOf="@+id/details_location" />
 
         <TextView
             android:id="@+id/details_humidity"
@@ -79,9 +94,8 @@
             android:text="Humidity:"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/details_location"
-            app:layout_constraintStart_toStartOf="@+id/details_location"
-            app:layout_constraintTop_toBottomOf="@+id/details_location" />
+            app:layout_constraintStart_toStartOf="@+id/details_guideline_left"
+            app:layout_constraintTop_toBottomOf="@+id/details_weekday" />
 
         <TextView
             android:id="@+id/details_precipitation"
@@ -95,8 +109,6 @@
             android:text="Precipitation:"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/details_location"
-            app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="@+id/details_location"
             app:layout_constraintTop_toBottomOf="@+id/details_humidity" />
 
@@ -112,7 +124,6 @@
             android:text="Visibility:"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/details_location"
             app:layout_constraintStart_toStartOf="@+id/details_location"
             app:layout_constraintTop_toBottomOf="@+id/details_precipitation" />
 
@@ -128,7 +139,6 @@
             android:text="Wind:"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/details_location"
             app:layout_constraintStart_toStartOf="@+id/details_location"
             app:layout_constraintTop_toBottomOf="@+id/details_visibility" />
 
@@ -144,23 +154,14 @@
             android:text="Pressure:"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/details_location"
             app:layout_constraintStart_toStartOf="@+id/details_location"
             app:layout_constraintTop_toBottomOf="@+id/details_wind" />
-
-        <Button
-            android:id="@+id/exit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/details_guideline_right"
-            app:layout_constraintTop_toTopOf="@+id/details_guideline_top"
-            tools:text="EXIT" />
 
         <TextView
             android:id="@+id/details_foryou"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="60dp"
             android:fontFamily="@font/poppins_bold"
             android:shadowDx="0"
             android:shadowDy="0"
@@ -245,83 +246,102 @@
             app:layout_constraintEnd_toStartOf="@+id/details_guideline_right"
             app:layout_constraintTop_toTopOf="@+id/details_pressure" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="39dp"
-            android:layout_marginTop="529dp"
-            android:orientation="vertical"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/details_guideline_boxes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="480dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/details_guideline_boxes">
+
+        <HorizontalScrollView
+            android:id="@+id/details_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck">
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <LinearLayout
+                android:id="@+id/container"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/container"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/details_cardview1"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:cardElevation="5dp">
 
 
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            tools:srcCompat="@tools:sample/avatars" />
-                    </com.google.android.material.card.MaterialCardView>
+                    <ImageView
+                        android:id="@+id/details_image1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:srcCompat="@tools:sample/avatars" />
+                </com.google.android.material.card.MaterialCardView>
 
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/details_cardview2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    app:cardElevation="5dp">
 
 
-                        <ImageView
-                            android:id="@+id/imageView2"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            tools:srcCompat="@tools:sample/avatars" />
+                    <ImageView
+                        android:id="@+id/details_image2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:srcCompat="@tools:sample/avatars" />
 
-                    </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-
-                        <ImageView
-                            android:id="@+id/imageView3"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            tools:srcCompat="@tools:sample/avatars" />
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/details_cardview3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
 
 
-                        <ImageView
-                            android:id="@+id/imageView4"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            tools:srcCompat="@tools:sample/avatars" />
+                    <ImageView
+                        android:id="@+id/details_image3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:srcCompat="@tools:sample/avatars" />
 
-                    </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
 
-                </LinearLayout>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/details_cardview4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
 
 
-            </HorizontalScrollView>
-        </LinearLayout>
+                    <ImageView
+                        android:id="@+id/details_image4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:srcCompat="@tools:sample/avatars" />
 
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+
+        </HorizontalScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
