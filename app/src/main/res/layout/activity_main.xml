@@ -71,7 +71,7 @@
             android:layout_marginBottom="15dp"
             android:adjustViewBounds="false"
             android:backgroundTint="#00FFFFFF"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:src="@drawable/ic_launcher_foreground"
             android:tag="0"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -202,10 +202,12 @@
             style="@style/Widget.MaterialComponents.Button.Icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/blueVariant"
             android:elevation="15dp"
             android:fontFamily="@font/poppins_medium"
+            android:maxWidth="250dp"
+            android:outlineAmbientShadowColor="@color/defaultOutlineAmbientShadowColor"
             android:shadowColor="#000000"
-            android:backgroundTint="@color/blueVariant"
             android:text="location"
             android:textColor="@color/white"
             android:textColorLink="@color/ic_launcher_background"
@@ -215,8 +217,7 @@
             app:iconTint="@color/white"
             app:layout_constraintEnd_toStartOf="@+id/favoriseBtn"
             app:layout_constraintStart_toEndOf="@+id/settingsBtn"
-            app:layout_constraintTop_toTopOf="@+id/guidelineTop"
-            android:outlineAmbientShadowColor="@color/defaultOutlineAmbientShadowColor"/>
+            app:layout_constraintTop_toTopOf="@+id/guidelineTop" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineTop"

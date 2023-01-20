@@ -78,6 +78,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 }
             }
 
+            //animation
+
         }
 
         //clothes recommendation button

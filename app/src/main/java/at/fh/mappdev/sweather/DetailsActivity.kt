@@ -54,7 +54,7 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
 
         launch {
             val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
-            val unit: String = sharedPreferences.getString(SettingsActivity.UNIT, "Fahrenheit").toString() //maybe mixed up
+            val unit: String = sharedPreferences.getString(SettingsActivity.UNIT, "Celsius").toString() //maybe mixed up
 
 
             val lat: Float = sharedPreferences.getFloat(LocationActivity.LAT, 47.0667F)

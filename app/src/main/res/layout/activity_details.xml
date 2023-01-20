@@ -40,11 +40,15 @@
         <TextView
             android:id="@+id/details_location"
             android:layout_width="wrap_content"
+            android:maxWidth="260dp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
+            android:singleLine="false"
             android:text="Location:"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
@@ -281,6 +285,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    app:cardCornerRadius="30dp"
                     app:cardElevation="20dp">
 
 
@@ -297,6 +302,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    app:cardCornerRadius="30dp"
                     app:cardElevation="20dp">
 
 
@@ -313,6 +319,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    app:cardCornerRadius="30dp"
                     app:cardElevation="20dp">
 
 
@@ -329,6 +336,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
+                    app:cardCornerRadius="30dp"
                     app:cardElevation="20dp">
 
 
