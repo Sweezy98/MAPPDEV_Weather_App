@@ -21,16 +21,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="39dp"
-            app:layout_constraintGuide_percent="0.07" />
+            app:layout_constraintGuide_begin="30dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/details_guideline_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="39dp"
-            app:layout_constraintGuide_percent="0.93" />
+            app:layout_constraintGuide_end="29dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/details_guideline_top"
@@ -44,7 +42,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
-            android:shadowColor="#9C000000"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -60,7 +57,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:fontFamily="@font/poppins_bold"
-            android:shadowColor="#9C000000"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -77,7 +73,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_regular"
-            android:shadowColor="#9C000000"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -94,7 +89,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_regular"
-            android:shadowColor="#9C000000"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -112,7 +106,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_regular"
-            android:shadowColor="#9C000000"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -129,7 +122,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_regular"
-            android:shadowColor="#9C000000"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -146,7 +138,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_regular"
-            android:shadowColor="#9C000000"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -171,12 +162,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
             android:fontFamily="@font/poppins_bold"
-            android:shadowColor="#9C000000"
             android:shadowDx="0"
             android:shadowDy="0"
             android:shadowRadius="5"
             android:text="For you:"
-            android:textColor="#000000"
+            android:textColor="#1566DF"
             android:textSize="28sp"
             app:layout_constraintStart_toStartOf="@+id/details_guideline_left"
             app:layout_constraintTop_toBottomOf="@+id/details_pressure" />
@@ -186,7 +176,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
-            android:shadowColor="#9C000000"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -202,7 +191,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
-            android:shadowColor="#9C000000"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -218,7 +206,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
-            android:shadowColor="#9C000000"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -234,7 +221,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
-            android:shadowColor="#9C000000"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -249,7 +235,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_bold"
-            android:shadowColor="#9C000000"
             android:shadowDx="10"
             android:shadowDy="10"
             android:shadowRadius="10"
@@ -260,74 +245,83 @@
             app:layout_constraintEnd_toStartOf="@+id/details_guideline_right"
             app:layout_constraintTop_toTopOf="@+id/details_pressure" />
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="39dp"
+            android:layout_marginTop="529dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:srcCompat="@tools:sample/avatars" />
+                    </com.google.android.material.card.MaterialCardView>
+
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+
+                        <ImageView
+                            android:id="@+id/imageView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:srcCompat="@tools:sample/avatars" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:srcCompat="@tools:sample/avatars" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+
+                        <ImageView
+                            android:id="@+id/imageView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:srcCompat="@tools:sample/avatars" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+
+            </HorizontalScrollView>
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="529dp"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <ImageView
-                    android:id="@+id/imageView4"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <ImageView
-                    android:id="@+id/imageView6"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars" />
-
-                <ImageView
-                    android:id="@+id/imageView7"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars" />
-            </LinearLayout>
-        </HorizontalScrollView>
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
