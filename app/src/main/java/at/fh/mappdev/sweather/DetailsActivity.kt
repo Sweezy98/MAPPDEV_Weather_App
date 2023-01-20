@@ -86,9 +86,10 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
             weekday.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.weekday?.long
             humidity.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.humidity.toString() + "%"
             precipitation.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.percipitation.toString() + " mm"
-            visibility.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.visibility?.toInt().toString() + " km"
+            val visTemp = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.visibility?.toInt()?.div(1000)
+            visibility.text = visTemp.toString() + " km"
             wind.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.wind?.speed.toString() + " km/h"
-            pressure.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.pressure.toString() + " hPa"
+            pressure.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.pressure?.toInt().toString() + " hPa"
 
             val selectedImages = mutableListOf<Int>()
             // if weather is good / bad set cardview images
