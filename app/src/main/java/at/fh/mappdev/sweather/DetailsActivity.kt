@@ -62,7 +62,7 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
 
             //get the current weather data
             val weatherResult = apolloClient(applicationContext).query(GetWeatherDataQuery(lat = lat.toDouble(), lon = lon.toDouble())).execute()
-            val weatherIcon = weatherResult.data?.getWeatherData?.weather?.get(0)?.icon
+            val weatherIcon = weatherResult.data?.getWeatherData?.weather?.get(value)?.icon
 
             // Set textViews
             val location = findViewById<TextView>(R.id.details_location)
