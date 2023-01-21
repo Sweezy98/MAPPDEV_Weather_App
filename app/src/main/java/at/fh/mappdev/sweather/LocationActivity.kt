@@ -2,7 +2,6 @@ package at.fh.mappdev.sweather
 
 import android.content.Context
 import android.graphics.Color
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable

@@ -3,16 +3,18 @@ package at.fh.mappdev.sweather
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.coordinatorlayout.widget.CoordinatorLayout.Behavior.setTag
 import at.fh.mappdev.sweather.type.FavouriteInput
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
+
 
 class MainActivity : AppCompatActivity(), CoroutineScope {
     private var job: Job = Job()
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         //toast loading message
         Toast.makeText(this@MainActivity, "Loading weather data...", Toast.LENGTH_SHORT).show()
-        // Get the current weather
+        // Get the weather data
         loadCurrentWeatherData()
 
         //locations button
@@ -78,9 +80,19 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 }
             }
 
-            //animation
-
         }
+
+        //continuous weather clothing-avatar animation to make it bounce
+        val animation: Animation = ScaleAnimation(
+            1f, 1.1f,
+            1f, 1.1f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+        )
+        animation.duration = 1000
+        animation.repeatCount = Animation.INFINITE
+        animation.repeatMode = Animation.REVERSE
+        findViewById<ImageButton>(R.id.weather_avatar).startAnimation(animation)
 
         //clothes recommendation button
         findViewById<ImageButton>(R.id.weather_avatar).setOnClickListener() {
@@ -138,15 +150,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
     override fun onResume() {
         super.onResume()
-        //reload the current weather when the activity is resumed
+        //reload the weather when the activity is resumed
         loadCurrentWeatherData()
     }
 
-    //load the current weather data from the API
+    //load the weather data from the API
     private fun loadCurrentWeatherData() {
         launch {
-
-            Log.e("MainActivity", "HELLO")
 
             //get unit from shared preferences
             val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
@@ -185,7 +195,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             val location = weatherResult.data?.getWeatherData?.name
             findViewById<TextView>(R.id.locationBtn).text = location
 
-            //set weather according to shared preferences
+            //set temperatures according to shared preferences
             val temp: Int?
             val tempMax: Int?
             val tempMin: Int?
@@ -265,7 +275,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
             //forecast weather loop
             for (i in 0..4) {
-                //set weather icon
+                //build forecast weather data
                 val weatherIcon = weatherResult.data?.getWeatherData?.weather?.get(i)?.icon
                 val dayIcon: String = "day" + i.toString() + "_weather"
                 val dayIconResID = resources.getIdentifier(dayIcon, "id", packageName)
