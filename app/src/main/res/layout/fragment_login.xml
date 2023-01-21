@@ -119,7 +119,7 @@
                 android:hint="@string/passwordInputHint"
                 android:includeFontPadding="false"
                 android:inputType="textPassword"
-                android:maxLength="32"
+                android:maxLength="50"
                 android:maxLines="1"
                 android:textColorHint="#78909C"
                 app:layout_constraintEnd_toEndOf="parent"
