@@ -11,7 +11,7 @@ import kotlin.random.Random
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-
+// declare Image Maps
 private val goodImageMap = mapOf(
     R.drawable.running to "running",
     R.drawable.walk to "walk",
@@ -34,6 +34,28 @@ private val badImageMap = mapOf(
     R.drawable.games to "games"
 )
 
+private val snowImageMap = mapOf(
+    R.drawable.snowman  to "snowman",
+    R.drawable.sledging to "sledging",
+    R.drawable.skiing to "skiing",
+    R.drawable.movienight to "movienight",
+    R.drawable.iceskating to "iceskating",
+    R.drawable.hotchoc to "hotchocolate",
+    R.drawable.cookies to "cookies",
+    R.drawable.christmasmarket to "christmasmarket"
+)
+
+private val coldImageMap = mapOf(
+    R.drawable.bouldering2 to "bouldering2",
+    R.drawable.cleaning2 to "cleaning2",
+    R.drawable.netflix2 to "netflix2",
+    R.drawable.ordertakeout to "ordertakeout",
+    R.drawable.plantrip to "plantrip",
+    R.drawable.walkpet to "walkpet",
+    R.drawable.reading2 to "reading2",
+    R.drawable.wellness2 to "wellness2"
+)
+
 class DetailsActivity : AppCompatActivity(), CoroutineScope {
     private var job: Job = Job()
 
@@ -51,16 +73,16 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
 
         launch {
             val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
-            val unit: String = sharedPreferences.getString(SettingsActivity.UNIT, "Celsius").toString() //maybe mixed up
+            val unit: String = sharedPreferences.getString(SettingsActivity.UNIT, "Celsius").toString()
 
-
+            // get lat and lon from shared preferences
             val lat: Float = sharedPreferences.getFloat(LocationActivity.LAT, 47.0667F)
             val lon: Float = sharedPreferences.getFloat(LocationActivity.LON, 15.4333F)
 
             // read value from intent
             val value = intent.getIntExtra("day", 0)
 
-            //get the current weather data
+            // get the current weather data
             val weatherResult = apolloClient(applicationContext).query(GetWeatherDataQuery(lat = lat.toDouble(), lon = lon.toDouble())).execute()
             val weatherIcon = weatherResult.data?.getWeatherData?.weather?.get(value)?.icon
 
@@ -73,40 +95,46 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
             val visibility = findViewById<TextView>(R.id.details_visibility_num)
             val wind = findViewById<TextView>(R.id.details_wind_num)
             val pressure = findViewById<TextView>(R.id.details_pressure_num)
+            val visTemp = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.visibility?.toInt()?.div(1000)
 
             location.text = weatherResult.data?.getWeatherData?.name
-            if (unit == "Fahrenheit") {
-                temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.cur?.f.toString() + "°"
-            } else {
-                temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.cur?.c.toString() + "°"
-            }
+            if (unit == "Fahrenheit") { temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.cur?.f.toString() + "°" }
+                else { temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.cur?.c.toString() + "°" }
             weekday.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.weekday?.long
             humidity.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.humidity.toString() + "%"
             precipitation.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.percipitation.toString() + " mm"
-            val visTemp = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.visibility?.toInt()?.div(1000)
             visibility.text = visTemp.toString() + " km"
             wind.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.wind?.speed.toString() + " km/h"
             pressure.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.pressure?.toInt().toString() + " hPa"
 
+            // declare prerequisites for the image algorithm
             val selectedImages = mutableListOf<Int>()
-            // if weather is good / bad set cardview images
-            if (weatherIcon == "rain" || weatherIcon == "storm" || weatherIcon == "snow" || weatherIcon == "cloud") {
-                val allImages = badImageMap.keys.toMutableList()
-                val random = Random(System.currentTimeMillis())
-                for (i in 0..3) {
-                    val index = random.nextInt(allImages.size)
-                    selectedImages.add(allImages[index])
-                    allImages.removeAt(index)
-                }
-            } else {
-                val allImages = goodImageMap.keys.toMutableList()
-                val random = Random(System.currentTimeMillis())
-                for (i in 0..3) {
-                    val index = random.nextInt(allImages.size)
-                    selectedImages.add(allImages[index])
-                    allImages.removeAt(index)
-                }
+            val selectedImagesTest = mutableSetOf<Int>()
+            val tempC = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.cur?.c
+            val random = Random(System.currentTimeMillis())
+            val allImages = when (weatherIcon) {
+                // if rain or storm -> badImageMap
+                "rain", "storm" -> badImageMap.keys
+                // if snow -> snowImageMap
+                "snow" -> snowImageMap.keys
+                // if sun, cloud or cloud_sun and tempC under 20 -> coldImageMap
+                "sun", "cloud", "cloud_sun" -> if (tempC!! < 20) coldImageMap.keys else goodImageMap.keys
+                // else -> goodImageMap
+                else -> goodImageMap.keys
             }
+
+            // select 4 random images and check for duplicates
+            for (i in 0..3) {
+                var image = allImages.elementAt(random.nextInt(allImages.size))
+                while (selectedImagesTest.contains(image)) {
+                    image = allImages.elementAt(random.nextInt(allImages.size))
+                }
+                selectedImagesTest.add(image)
+                selectedImages.add(image)
+
+
+            }
+
 
             // Set images
             val image1 = findViewById<ImageView>(R.id.details_image1)
@@ -119,8 +147,13 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
             image3.setImageResource(selectedImages[2])
             image4.setImageResource(selectedImages[3])
 
+            // todo - open netflix if clicked on netflix image
+
+
+
         }
 
     }
 
 }
+
