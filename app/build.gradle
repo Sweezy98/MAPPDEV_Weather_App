@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:2.5.0'
     implementation 'androidx.test.ext:junit-ktx:1.1.5'
     implementation 'androidx.test.espresso:espresso-intents:3.5.1'
+    implementation 'androidx.test.espresso:espresso-contrib:3.5.1'
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.junit.jupiter:junit-jupiter'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'

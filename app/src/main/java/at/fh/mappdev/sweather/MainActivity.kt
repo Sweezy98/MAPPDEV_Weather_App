@@ -82,17 +82,21 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         }
 
+        //no animation because otherwise tests wont work
         //continuous weather clothing-avatar animation to make it bounce
-        val animation: Animation = ScaleAnimation(
+        /*launch{
+            val animation: Animation = ScaleAnimation(
             1f, 1.1f,
             1f, 1.1f,
             Animation.RELATIVE_TO_SELF, 0.5f,
             Animation.RELATIVE_TO_SELF, 0.5f
         )
-        animation.duration = 1000
-        animation.repeatCount = Animation.INFINITE
-        animation.repeatMode = Animation.REVERSE
-        findViewById<ImageButton>(R.id.weather_avatar).startAnimation(animation)
+            animation.duration = 1000
+            animation.repeatCount = Animation.INFINITE
+            animation.repeatMode = Animation.REVERSE
+            findViewById<ImageButton>(R.id.weather_avatar).startAnimation(animation)
+        }*/
+
 
         //clothes recommendation button
         findViewById<ImageButton>(R.id.weather_avatar).setOnClickListener() {

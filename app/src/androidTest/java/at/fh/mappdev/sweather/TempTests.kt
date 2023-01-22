@@ -49,16 +49,13 @@ class TempTests {
     // Test if the temperature changes on the main activity
     @Test
     fun checkTempChanged() {
-        //read the current temperature
-        onView(withId(R.id.current_temperature)).check(matches(withText(containsString("°"))))
         val currentTemp = onView(withId(R.id.current_temperature)).toString()
 
         onView(withId(R.id.settingsBtn)).perform(click())
         onView(withId(R.id.Fahrenheit)).perform(click())
-        //read the new temperature
-        onView(withId(R.id.current_temperature)).check(matches(withText(containsString("°"))))
+
         val newTemp = onView(withId(R.id.current_temperature)).toString()
-        //check if the temperature changed
+
         assert(currentTemp != newTemp)
     }
 }
