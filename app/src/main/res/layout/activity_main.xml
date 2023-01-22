@@ -205,7 +205,7 @@
             android:backgroundTint="@color/blueVariant"
             android:elevation="15dp"
             android:fontFamily="@font/poppins_medium"
-            android:maxWidth="250dp"
+            android:maxWidth="240dp"
             android:outlineAmbientShadowColor="@color/defaultOutlineAmbientShadowColor"
             android:shadowColor="#000000"
             android:text="location"
