@@ -180,8 +180,10 @@ type User {
 
 "Weather data for a specific location"
 type WeatherData {
-    "True if user logged in and location is favorite, otherwise false"
-    isFavorite: Boolean
+    "id of favourite location"
+    favouriteId: String
+    "True if user logged in and location is favourite, otherwise false"
+    isFavourite: Boolean
     "Location name"
     name: String
     "Array of weather data"

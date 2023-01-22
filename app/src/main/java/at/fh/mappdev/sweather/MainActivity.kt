@@ -27,6 +27,11 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         job.cancel()
     }
 
+    private var isFav: Boolean = false
+    private var favId: String = ""
+    private var location: String = "Graz, AT"
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -54,14 +59,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
                 val lat: Float = sharedPreferences.getFloat(LocationActivity.LAT, 47.0667F) //default coordinates set for Graz
                 val lon: Float = sharedPreferences.getFloat(LocationActivity.LON, 15.4333F)
-                val name: String = sharedPreferences.getString(LocationActivity.LOCATION_NAME, "Graz, AT").toString()
-                val favId: String = sharedPreferences.getString(LocationActivity.FAVORITE_ID, null).toString()
 
-                if (favId != "null") {
+                if (favId != "") {
                     //delete favorite on server
                     val result = apolloClient(applicationContext).mutation(RemoveFavouriteMutation(favId)).execute()
-                    //remove favorite from shared preferences
-                    sharedPreferences.edit().putString(LocationActivity.FAVORITE_ID, null).apply()
                     //set icon
                     findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.not_favorised)
                 } else {
@@ -70,11 +71,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                         FavouriteInput(
                             lat.toDouble(),
                             lon.toDouble(),
-                            name
+                            location
                         )
                     )).execute()
-                    //add favorite to shared preferences
-                    sharedPreferences.edit().putString(LocationActivity.FAVORITE_ID, result?.data?.addFavourite?.last()?._id).apply()
                     //set icon
                     findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.favorised)
                 }
@@ -84,18 +83,18 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
         //no animation because otherwise tests wont work
         //continuous weather clothing-avatar animation to make it bounce
-        /*launch{
+        /*
             val animation: Animation = ScaleAnimation(
             1f, 1.1f,
             1f, 1.1f,
             Animation.RELATIVE_TO_SELF, 0.5f,
             Animation.RELATIVE_TO_SELF, 0.5f
-        )
+            )
             animation.duration = 1000
             animation.repeatCount = Animation.INFINITE
             animation.repeatMode = Animation.REVERSE
             findViewById<ImageButton>(R.id.weather_avatar).startAnimation(animation)
-        }*/
+        */
 
 
         //clothes recommendation button
@@ -170,17 +169,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             val lat: Float = sharedPreferences.getFloat(LocationActivity.LAT, 47.0667F) //default coordinates set for Graz
             val lon: Float = sharedPreferences.getFloat(LocationActivity.LON, 15.4333F)
 
-            //get favourite id from shared preferences
-            val favId: String = sharedPreferences.getString(LocationActivity.FAVORITE_ID, null).toString()
-
-            if (favId != "null") {
-                //set favored icon
-                findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.favorised)
-            }
-            else {
-                //set not favored icon
-                findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.not_favorised)
-            }
 
             //get the current weather data
             val weatherResult = apolloClient(applicationContext).query(GetWeatherDataQuery(lat = lat.toDouble(), lon = lon.toDouble())).execute()
@@ -197,7 +185,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             }
 
             //set location name
-            val location = weatherResult.data?.getWeatherData?.name
+            location = weatherResult.data?.getWeatherData?.name!!
             findViewById<TextView>(R.id.locationBtn).text = location
 
             //set temperatures according to shared preferences
@@ -278,12 +266,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             }
 
             //set favorite button
-            if (weatherResult?.data?.getWeatherData?.isFavorite != null) {
-                if (weatherResult?.data?.getWeatherData?.isFavorite == true) {
+            if (weatherResult?.data?.getWeatherData?.isFavourite == true) {
                 findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.favorised)
-                } else {
-                    findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.not_favorised)
-                }
+                isFav = true
+                favId = weatherResult.data?.getWeatherData?.favouriteId!!
+            } else {
+                findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.not_favorised)
+                isFav = false
+                favId = ""
             }
 
             //forecast weather loop

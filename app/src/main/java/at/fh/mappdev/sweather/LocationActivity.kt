@@ -44,8 +44,6 @@ class LocationActivity : AppCompatActivity(), CoroutineScope {
     companion object {
         const val LAT = "LAT"
         const val LON = "LON"
-        const val LOCATION_NAME = "LOCATION_NAME"
-        const val FAVORITE_ID = "FAVORITE_ID"
     }
 
     private val textWatcher = object : TextWatcher {
@@ -68,17 +66,11 @@ class LocationActivity : AppCompatActivity(), CoroutineScope {
                 val place = response.place
                 val lat = place.latLng?.latitude
                 val lon = place.latLng?.longitude
-                val name = place.name + ", " + place.addressComponents.asList()[3].shortName
-
-                // check if location is already in favorites list
-                val favId = favouriteAdapter.isFavourite(name, lat!!, lon!!)
 
                 //Set sharedPreferences
                 val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
                 sharedPreferences.edit().putFloat(LAT, place.latLng.latitude.toFloat()).apply()
                 sharedPreferences.edit().putFloat(LON, place.latLng.longitude.toFloat()).apply()
-                sharedPreferences.edit().putString(FAVORITE_ID, favId).apply()
-                sharedPreferences.edit().putString(LOCATION_NAME, name).apply()
                 finish()
             }.addOnFailureListener { exception ->
                 if (exception is ApiException) {
@@ -91,18 +83,10 @@ class LocationActivity : AppCompatActivity(), CoroutineScope {
         val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
         sharedPreferences.edit().putFloat(LAT, it!!.lat!!.toFloat()).apply()
         sharedPreferences.edit().putFloat(LON, it!!.lon!!.toFloat()).apply()
-        sharedPreferences.edit().putString(FAVORITE_ID, it!!._id!!).apply()
-        sharedPreferences.edit().putString(LOCATION_NAME, it.name).apply()
         finish()
     },
         {
             val sharedPreferences = getSharedPreferences(packageName, Context.MODE_PRIVATE)
-            val name: String = sharedPreferences.getString(LOCATION_NAME, null).toString()
-
-            // check if location to delete is the current location
-            if (name == it!!.name!!) {
-                sharedPreferences.edit().putString(FAVORITE_ID, null).apply()
-            }
 
             removeFavourite(it!!._id!!)
             launch {

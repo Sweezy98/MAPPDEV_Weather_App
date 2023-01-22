@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -78,7 +79,9 @@ class LoginFragment : Fragment(R.layout.fragment_login), CoroutineScope {
 
                     activity?.finish()
                 } else {
-                    //wrong credentials
+                    if (result.errors?.get(0) != null) {
+                        Toast.makeText(requireContext(), result.errors?.get(0)?.message.toString(), Toast.LENGTH_SHORT).show()
+                    }
                 }
                 view.findViewById<ProgressBar>(R.id.login_LoadingSpinner).visibility = View.INVISIBLE
             }

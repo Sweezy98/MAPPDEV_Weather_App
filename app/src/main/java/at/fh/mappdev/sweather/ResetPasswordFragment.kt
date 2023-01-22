@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
@@ -51,6 +52,7 @@ class ResetPasswordFragment : Fragment(R.layout.fragment_reset_password), Corout
                     setReorderingAllowed(true)
                     replace<LoginFragment>(R.id.login_fragmentContainer)
                 }
+                Toast.makeText(requireContext(), "Password reset was sent!", Toast.LENGTH_SHORT).show()
             }
         }
 

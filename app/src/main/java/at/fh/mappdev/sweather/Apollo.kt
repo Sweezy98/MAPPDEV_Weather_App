@@ -1,7 +1,9 @@
 package at.fh.mappdev.sweather
 
+import android.app.ActivityManager
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
@@ -44,14 +46,29 @@ private class AuthorizationInterceptor(val context: Context): Interceptor, Corou
 
     // function to refresh the token
     fun refreshToken(context: Context): String {
-        val refreshToken = context.getSharedPreferences("at.fh.mappdev.sweather", Context.MODE_PRIVATE).getString("REFRESH_TOKEN", null)
+        val refreshToken = context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE).getString("REFRESH_TOKEN", null)
         var accessToken = ""
         launch {
             val result = apolloClientRefresh.query(RenewTokenQuery(refreshToken!!)).execute()
             if (result.data?.renewToken != null && result.errors == null) {
-                context.getSharedPreferences("at.fh.mappdev.sweather", Context.MODE_PRIVATE).edit().putString("ACCESS_TOKEN", result.data!!.renewToken!!.accessToken).apply()
-                context.getSharedPreferences("at.fh.mappdev.sweather", Context.MODE_PRIVATE).edit().putString("REFRESH_TOKEN", result.data!!.renewToken!!.refreshToken).apply()
+                context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE).edit().putString("ACCESS_TOKEN", result.data!!.renewToken!!.accessToken).apply()
+                context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE).edit().putString("REFRESH_TOKEN", result.data!!.renewToken!!.refreshToken).apply()
                 accessToken = result.data!!.renewToken!!.accessToken!!
+            }
+            if (result.errors != null) {
+                //force logout
+                context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE).edit().remove("ACCESS_TOKEN").apply()
+                context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE).edit().remove("REFRESH_TOKEN").apply()
+                context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE).edit().remove("SESSION").apply()
+                context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE).edit().remove("EMAIL").apply()
+                context.getSharedPreferences(context.packageName, Context.MODE_PRIVATE).edit().remove("NAME").apply()
+
+                // finish all activities
+                val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+                activityManager.appTasks.forEach { it.finishAndRemoveTask() }
+
+
+                Toast.makeText(context, "Your session has expired. Please log in again.", Toast.LENGTH_LONG).show()
             }
         }
         return accessToken

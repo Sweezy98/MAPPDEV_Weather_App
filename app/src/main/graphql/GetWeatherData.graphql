@@ -39,6 +39,7 @@ query GetWeatherData($lat: Float!, $lon: Float!) {
       code
       icon
     }
-    isFavorite
+    isFavourite
+    favouriteId
   }
 }
