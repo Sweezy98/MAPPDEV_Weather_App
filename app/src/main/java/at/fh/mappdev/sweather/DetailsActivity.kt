@@ -148,8 +148,8 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
             if (unit == "Fahrenheit") { temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.min?.f.toString() + "°" + " - " + weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.max?.f.toString() + "°"}
                 else { temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.min?.c.toString() + "°" + " - " + weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.max?.c.toString() + "°"
             weekday.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.weekday?.long
-            humidity.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.humidity.toString() + "%"
-            precipitation.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.percipitation?.toInt().toString() + " mm"
+            humidity.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.humidity?.toInt().toString() + "%"
+            precipitation.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.precipitation?.toInt().toString() + " mm"
             visibility.text = visTemp.toString() + " km"
             wind.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.wind?.speed.toString() + " km/h"
             pressure.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.pressure?.toInt().toString() + " hPa"
