@@ -1,5 +1,7 @@
 package at.fh.mappdev.sweather
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
@@ -108,6 +110,10 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
             pressure.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.pressure?.toInt().toString() + " hPa"
 
             // declare prerequisites for the image algorithm
+            val image1 = findViewById<ImageView>(R.id.details_image1)
+            val image2 = findViewById<ImageView>(R.id.details_image2)
+            val image3 = findViewById<ImageView>(R.id.details_image3)
+            val image4 = findViewById<ImageView>(R.id.details_image4)
             val selectedImages = mutableListOf<Int>()
             val selectedImagesTest = mutableSetOf<Int>()
             val tempC = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.cur?.c
@@ -132,28 +138,37 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
                 selectedImagesTest.add(image)
                 selectedImages.add(image)
 
+                // set images
+                when (i) {
+                    0 -> image1.setImageResource(image)
+                    1 -> image2.setImageResource(image)
+                    2 -> image3.setImageResource(image)
+                    3 -> image4.setImageResource(image)
+                }
 
+                // set onclicklisteners on netflix cardview
+                if (image == R.drawable.netflix2 || image == R.drawable.netflix) {
+                    when (i) {
+                        0 -> image1.setOnClickListener {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.netflix.com/browse"))
+                            startActivity(intent)
+                        }
+                        1 -> image2.setOnClickListener {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.netflix.com/browse"))
+                            startActivity(intent)
+                        }
+                        2 -> image3.setOnClickListener {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.netflix.com/browse"))
+                            startActivity(intent)
+                        }
+                        3 -> image4.setOnClickListener {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.netflix.com/browse"))
+                            startActivity(intent)
+                        }
+                    }
+                }
             }
-
-
-            // Set images
-            val image1 = findViewById<ImageView>(R.id.details_image1)
-            val image2 = findViewById<ImageView>(R.id.details_image2)
-            val image3 = findViewById<ImageView>(R.id.details_image3)
-            val image4 = findViewById<ImageView>(R.id.details_image4)
-
-            image1.setImageResource(selectedImages[0])
-            image2.setImageResource(selectedImages[1])
-            image3.setImageResource(selectedImages[2])
-            image4.setImageResource(selectedImages[3])
-
-            // todo - open netflix if clicked on netflix image
-
-
-
         }
-
     }
-
 }
 
