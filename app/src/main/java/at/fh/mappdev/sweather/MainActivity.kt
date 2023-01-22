@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
             //get unit from shared preferences
             val sharedPreferences = getSharedPreferences(packageName, MODE_PRIVATE)
-            val unit: String = sharedPreferences.getString(SettingsActivity.UNIT, "Celsius").toString() //maybe mixed up
+            val unit: String = sharedPreferences.getString(SettingsActivity.UNIT, "Celsius").toString()
 
             //get lat and lon from shared preferences
             val lat: Float = sharedPreferences.getFloat(LocationActivity.LAT, 47.0667F) //default coordinates set for Graz
@@ -170,16 +170,17 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
             val favId: String = sharedPreferences.getString(LocationActivity.FAVORITE_ID, null).toString()
 
             if (favId != "null") {
-                //set favorised icon
+                //set favored icon
                 findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.favorised)
             }
             else {
-                //set not favorised icon
+                //set not favored icon
                 findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.not_favorised)
             }
 
             //get the current weather data
             val weatherResult = apolloClient(applicationContext).query(GetWeatherDataQuery(lat = lat.toDouble(), lon = lon.toDouble())).execute()
+
 
             //check if api returns error
             val error = weatherResult.errors?.get(0)?.message
@@ -231,7 +232,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
 
 
             //set clothing recommendation icons
-            var clothesImage = findViewById<ImageButton>(R.id.weather_avatar)
+            val clothesImage = findViewById<ImageButton>(R.id.weather_avatar)
             if (weatherIcon == "rain" || weatherIcon == "storm") {
                 when (weatherResult.data?.getWeatherData?.weather?.get(0)?.temps?.cur?.c) {
                     in -50..10 -> {

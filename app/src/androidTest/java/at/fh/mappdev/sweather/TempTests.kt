@@ -1,8 +1,5 @@
 package at.fh.mappdev.sweather
 import android.content.Context
-import android.content.Intent
-import android.util.Log
-import androidx.core.content.ContextCompat.startActivity
 import androidx.test.InstrumentationRegistry.getTargetContext
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -10,8 +7,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.espresso.intent.Intents
-import androidx.test.espresso.intent.Intents.intended
-import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import at.fh.mappdev.sweather.SettingsActivity.Companion.UNIT
@@ -57,17 +52,16 @@ class TempTests {
     // Test if the temperature changes on the main activity
     @Test
     fun checkTempChanged() {
-
-        /*val temperatureVal = onView(withId(R.id.current_temperature)).toString().replace("°", "")
-        val temperatureValInt = temperatureVal.toInt()
-        val tempChangedVal:Int = temperatureValInt * (9/5) + 32
+        //read the current temperature
+        onView(withId(R.id.current_temperature)).check(matches(withText(containsString("°"))))
+        val currentTemp = onView(withId(R.id.current_temperature)).toString()
 
         onView(withId(R.id.settingsBtn)).perform(click())
-        onView(withId(R.id.Celsius)).perform(click())
         onView(withId(R.id.Fahrenheit)).perform(click())
-
-        val otherTemperatureVal = onView(withId(R.id.current_temperature)).toString().replace("°", "")
-
-        assert(tempChangedVal == otherTemperatureVal.toInt())*/
+        //read the new temperature
+        onView(withId(R.id.current_temperature)).check(matches(withText(containsString("°"))))
+        val newTemp = onView(withId(R.id.current_temperature)).toString()
+        //check if the temperature changed
+        assert(currentTemp != newTemp)
     }
 }
