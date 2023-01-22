@@ -180,8 +180,8 @@ type User {
 
 "Weather data for a specific location"
 type WeatherData {
-    "Clothing recommendation"
-    clothing: String
+    "True if user logged in and location is favorite, otherwise false"
+    isFavorite: Boolean
     "Location name"
     name: String
     "Array of weather data"
@@ -211,7 +211,7 @@ type WeatherDetails {
     "Humidity, %"
     humidity: Float
     "Rain volume for the last 3 hours"
-    percipitation: Float
+    precipitation: Float
     "Atmospheric pressure on the sea level, hPa"
     pressure: Float
     "Visibility, meter"
@@ -232,8 +232,6 @@ type Weekday {
 type Wind {
     "Wind direction, degrees (meteorological)"
     deg: Int
-    "Wind gust. Unit Default: meter/sec"
-    gust: Float
     "Wind speed. Unit Default: meter/sec"
     speed: Float
 }

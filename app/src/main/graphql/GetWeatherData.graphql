@@ -28,18 +28,17 @@ query GetWeatherData($lat: Float!, $lon: Float!) {
       }
       details {
         humidity
-        percipitation
+        precipitation
         visibility
         wind {
           speed
           deg
-          gust
         }
         pressure
       }
       code
       icon
     }
-    clothing
+    isFavorite
   }
 }

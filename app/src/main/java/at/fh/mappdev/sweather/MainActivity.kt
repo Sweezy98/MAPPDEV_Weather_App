@@ -273,6 +273,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
                 }
             }
 
+            //set favorite button
+            if (weatherResult?.data?.getWeatherData?.isFavorite != null) {
+                if (weatherResult?.data?.getWeatherData?.isFavorite == true) {
+                findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.favorised)
+                } else {
+                    findViewById<ImageButton>(R.id.favoriseBtn).setImageResource(R.drawable.not_favorised)
+                }
+            }
 
             //forecast weather loop
             for (i in 0..4) {
