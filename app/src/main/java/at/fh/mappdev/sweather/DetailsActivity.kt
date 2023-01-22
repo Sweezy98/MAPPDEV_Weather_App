@@ -143,6 +143,8 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
             val wind = findViewById<TextView>(R.id.details_wind_num)
             val pressure = findViewById<TextView>(R.id.details_pressure_num)
             val visTemp = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.visibility?.toInt()?.div(1000)
+            val windArrow = findViewById<ImageView>(R.id.details_windarrow)
+            windArrow.rotation = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.wind?.deg?.toFloat()!!
 
             location.text = weatherResult.data?.getWeatherData?.name
             if (unit == "Fahrenheit") { temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.min?.f.toString() + "°" + " - " + weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.max?.f.toString() + "°"}
@@ -153,6 +155,7 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
             visibility.text = visTemp.toString() + " km"
             wind.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.wind?.speed.toString() + " km/h"
             pressure.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.pressure?.toInt().toString() + " hPa"
+
 
             // declare prerequisites for the image algorithm
             val image1 = findViewById<ImageView>(R.id.details_image1)

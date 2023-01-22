@@ -251,6 +251,15 @@
             app:layout_constraintEnd_toStartOf="@+id/details_guideline_right"
             app:layout_constraintTop_toTopOf="@+id/details_pressure" />
 
+        <ImageView
+            android:id="@+id/details_windarrow"
+            android:layout_width="29dp"
+            android:layout_height="33dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/details_wind_num"
+            app:layout_constraintTop_toTopOf="@+id/details_wind_num"
+            app:srcCompat="@drawable/arrowwind" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
