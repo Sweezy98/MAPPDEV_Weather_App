@@ -1,6 +1,7 @@
 package at.fh.mappdev.sweather
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -58,6 +59,50 @@ private val coldImageMap = mapOf(
     R.drawable.wellness2 to "wellness2"
 )
 
+private val darkGoodImageMap = mapOf(
+    R.drawable.runningdark to "runningdark",
+    R.drawable.walkdark to "walkdark",
+    R.drawable.cafedark to "cafedark",
+    R.drawable.parkdark to "parkdark",
+    R.drawable.minigolfdark to "minigolfdark",
+    R.drawable.swimdark to "swimmingdark",
+    R.drawable.relaxdark to "relaxdark",
+    R.drawable.hikedark to "hikingdark",
+)
+
+private val darkBadImageMap = mapOf(
+    R.drawable.bakedark to "bakingdark",
+    R.drawable.netflixdark to "netflixdark",
+    R.drawable.readdark to "readingdark",
+    R.drawable.cleandark to "cleaningdark",
+    R.drawable.boulderingdark to "boulderingdark",
+    R.drawable.wellnessdark to "wellnessdark",
+    R.drawable.cinemadark to "cinemadark",
+    R.drawable.gamesdark to "gamesdark"
+)
+
+private val darkSnowImageMap = mapOf(
+    R.drawable.snowmandark to "snowmandark",
+    R.drawable.sledgingdark to "sledgingdark",
+    R.drawable.skiingdark to "skiingdark",
+    R.drawable.moviedark to "movienightdark",
+    R.drawable.iceskatingdark to "iceskatingdark",
+    R.drawable.hotchocdark to "hotchocolatedark",
+    R.drawable.cookiesdark to "cookiesdark",
+    R.drawable.christmasmarketdark to "christmasmarketdark"
+)
+
+private val darkColdImageMap = mapOf(
+    R.drawable.bouldering2dark to "bouldering2dark",
+    R.drawable.clean2dark to "cleaning2dark",
+    R.drawable.netflix2dark to "netflix2dark",
+    R.drawable.takeoutdark to "ordertakeoutdark",
+    R.drawable.tripdark to "plantripdark",
+    R.drawable.walkpetdark to "walkpetdark",
+    R.drawable.reading2dark to "reading2dark",
+    R.drawable.wellness2dark to "wellness2dark"
+)
+
 class DetailsActivity : AppCompatActivity(), CoroutineScope {
     private var job: Job = Job()
 
@@ -100,8 +145,8 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
             val visTemp = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.visibility?.toInt()?.div(1000)
 
             location.text = weatherResult.data?.getWeatherData?.name
-            if (unit == "Fahrenheit") { temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.cur?.f.toString() + "°" }
-                else { temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.cur?.c.toString() + "°" }
+            if (unit == "Fahrenheit") { temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.min?.f.toString() + "°" + " - " + weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.max?.f.toString() + "°"}
+                else { temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.min?.c.toString() + "°" + " - " + weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.max?.c.toString() + "°"
             weekday.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.weekday?.long
             humidity.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.humidity.toString() + "%"
             precipitation.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.percipitation.toString() + " mm"
@@ -116,17 +161,20 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
             val image4 = findViewById<ImageView>(R.id.details_image4)
             val selectedImages = mutableListOf<Int>()
             val selectedImagesTest = mutableSetOf<Int>()
-            val tempC = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.cur?.c
+            val tempC = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.max?.c
             val random = Random(System.currentTimeMillis())
+            val darkModeTest = if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) true else false
+
+            // set the list, needed for randomly setting cardviews, depending on the weatherIcon and darkmode
             val allImages = when (weatherIcon) {
                 // if rain or storm -> badImageMap
-                "rain", "storm" -> badImageMap.keys
+                "rain", "storm" -> if (darkModeTest == false) badImageMap.keys else darkBadImageMap.keys
                 // if snow -> snowImageMap
-                "snow" -> snowImageMap.keys
+                "snow" -> if (darkModeTest == false) snowImageMap.keys else darkSnowImageMap.keys
                 // if sun, cloud or cloud_sun and tempC under 20 -> coldImageMap
-                "sun", "cloud", "cloud_sun" -> if (tempC!! < 20) coldImageMap.keys else goodImageMap.keys
+                "sun", "cloud", "cloud_sun" -> if (tempC!! < 20) if (darkModeTest == false) coldImageMap.keys else darkColdImageMap.keys else if (darkModeTest == false) goodImageMap.keys else darkGoodImageMap.keys
                 // else -> goodImageMap
-                else -> goodImageMap.keys
+                else -> if (darkModeTest == false) goodImageMap.keys else darkGoodImageMap.keys
             }
 
             // select 4 random images and check for duplicates
@@ -147,7 +195,7 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
                 }
 
                 // set onclicklisteners on netflix cardview
-                if (image == R.drawable.netflix2 || image == R.drawable.netflix) {
+                if (image == R.drawable.netflix2 || image == R.drawable.netflix || image == R.drawable.netflixdark || image == R.drawable.netflix2dark) {
                     when (i) {
                         0 -> image1.setOnClickListener {
                             val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.netflix.com/browse"))
@@ -170,5 +218,6 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
             }
         }
     }
+}
 }
 
