@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class SettingsActivity : AppCompatActivity(), CoroutineScope {
-    // Initializes Coroutine Scope
+    // Initializes Coroutine Scope for the Settings Activity
     private var job: Job = Job()
 
     override val coroutineContext: CoroutineContext
