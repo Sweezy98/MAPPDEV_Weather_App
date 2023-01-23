@@ -168,16 +168,16 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
             val random = Random(System.currentTimeMillis())
             val darkModeTest = if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES) true else false
 
-            // set the list, needed for randomly setting cardviews, depending on the weatherIcon and darkmode
+            val goodImages = if (!darkModeTest) goodImageMap.keys else darkGoodImageMap.keys
+            val badImages = if (!darkModeTest) badImageMap.keys else darkBadImageMap.keys
+            val coldImages = if (!darkModeTest) coldImageMap.keys else darkColdImageMap.keys
+            val snowImages = if (!darkModeTest) snowImageMap.keys else darkSnowImageMap.keys
+
             val allImages = when (weatherIcon) {
-                // if rain or storm -> badImageMap
-                "rain", "storm" -> if (darkModeTest == false) badImageMap.keys else darkBadImageMap.keys
-                // if snow -> snowImageMap
-                "snow" -> if (darkModeTest == false) snowImageMap.keys else darkSnowImageMap.keys
-                // if sun, cloud or cloud_sun and tempC under 20 -> coldImageMap
-                "sun", "cloud", "cloud_sun" -> if (tempC!! < 20) if (darkModeTest == false) coldImageMap.keys else darkColdImageMap.keys else if (darkModeTest == false) goodImageMap.keys else darkGoodImageMap.keys
-                // else -> goodImageMap
-                else -> if (darkModeTest == false) goodImageMap.keys else darkGoodImageMap.keys
+                "rain", "storm" -> badImages
+                "snow" -> snowImages
+                "sun", "cloud", "cloud_sun" -> if (tempC!! < 20) coldImages else goodImages
+                else -> goodImages
             }
 
             // select 4 random images and check for duplicates
