@@ -148,7 +148,7 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
 
             location.text = weatherResult.data?.getWeatherData?.name
             if (unit == "Fahrenheit") { temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.min?.f.toString() + "°" + " - " + weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.max?.f.toString() + "°"}
-                else { temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.min?.c.toString() + "°" + " - " + weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.max?.c.toString() + "°"
+                else { temperature.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.min?.c.toString() + "°" + " - " + weatherResult.data?.getWeatherData?.weather?.get(value)?.temps?.max?.c.toString() + "°"}
             weekday.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.weekday?.long
             humidity.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.humidity?.toInt().toString() + "%"
             precipitation.text = weatherResult.data?.getWeatherData?.weather?.get(value)?.details?.precipitation?.toInt().toString() + " mm"
@@ -221,6 +221,5 @@ class DetailsActivity : AppCompatActivity(), CoroutineScope {
             }
         }
     }
-}
 }
 
