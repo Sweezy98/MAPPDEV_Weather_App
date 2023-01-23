@@ -44,9 +44,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register), CoroutineScope {
             launch {
                 val email = view.findViewById<EditText>(R.id.register_emailInput).text.toString()
                 val password =
-                    view.findViewById<EditText>(R.id.register_passwordInput).text.toString()
+                    view.findViewById<EditText>(R.id.changePw_passwordInput).text.toString()
                 val passwordConfirm =
-                    view.findViewById<EditText>(R.id.register_confirmPasswordInput).text.toString()
+                    view.findViewById<EditText>(R.id.changePw_confirmPasswordInput).text.toString()
                 val name = view.findViewById<EditText>(R.id.register_nameInput).text.toString()
 
                 if (email.isEmpty() || password.isEmpty() || passwordConfirm.isEmpty() || name.isEmpty()) {
@@ -99,23 +99,23 @@ class RegisterFragment : Fragment(R.layout.fragment_register), CoroutineScope {
             }
         }
 
-        view.findViewById<EditText>(R.id.register_passwordInput).setOnFocusChangeListener() { _, hasFocus ->
+        view.findViewById<EditText>(R.id.changePw_passwordInput).setOnFocusChangeListener() { _, hasFocus ->
             if (hasFocus) {
-                view.findViewById<MaterialCardView>(R.id.register_password).strokeWidth = 4
-                view.findViewById<MaterialCardView>(R.id.register_password).outlineAmbientShadowColor = getColorWithAlpha(R.color.blue, 0.5f)
+                view.findViewById<MaterialCardView>(R.id.changePw_password).strokeWidth = 4
+                view.findViewById<MaterialCardView>(R.id.changePw_password).outlineAmbientShadowColor = getColorWithAlpha(R.color.blue, 0.5f)
             } else {
-                view.findViewById<MaterialCardView>(R.id.register_password).strokeWidth = 0
-                view.findViewById<MaterialCardView>(R.id.register_password).outlineAmbientShadowColor = ResourcesCompat.getColor(resources, R.color.defaultOutlineAmbientShadowColor, null)
+                view.findViewById<MaterialCardView>(R.id.changePw_password).strokeWidth = 0
+                view.findViewById<MaterialCardView>(R.id.changePw_password).outlineAmbientShadowColor = ResourcesCompat.getColor(resources, R.color.defaultOutlineAmbientShadowColor, null)
             }
         }
 
-        view.findViewById<EditText>(R.id.register_confirmPasswordInput).setOnFocusChangeListener() { _, hasFocus ->
+        view.findViewById<EditText>(R.id.changePw_confirmPasswordInput).setOnFocusChangeListener() { _, hasFocus ->
             if (hasFocus) {
-                view.findViewById<MaterialCardView>(R.id.register_password2).strokeWidth = 4
-                view.findViewById<MaterialCardView>(R.id.register_password2).outlineAmbientShadowColor = getColorWithAlpha(R.color.blue, 0.5f)
+                view.findViewById<MaterialCardView>(R.id.changePw_password2).strokeWidth = 4
+                view.findViewById<MaterialCardView>(R.id.changePw_password2).outlineAmbientShadowColor = getColorWithAlpha(R.color.blue, 0.5f)
             } else {
-                view.findViewById<MaterialCardView>(R.id.register_password2).strokeWidth = 0
-                view.findViewById<MaterialCardView>(R.id.register_password2).outlineAmbientShadowColor = ResourcesCompat.getColor(resources, R.color.defaultOutlineAmbientShadowColor, null)
+                view.findViewById<MaterialCardView>(R.id.changePw_password2).strokeWidth = 0
+                view.findViewById<MaterialCardView>(R.id.changePw_password2).outlineAmbientShadowColor = ResourcesCompat.getColor(resources, R.color.defaultOutlineAmbientShadowColor, null)
             }
         }
 

@@ -130,7 +130,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/register_password"
+        android:id="@+id/changePw_password"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
@@ -163,7 +163,7 @@
                 app:tint="@color/blue" />
 
             <EditText
-                android:id="@+id/register_passwordInput"
+                android:id="@+id/changePw_passwordInput"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
@@ -185,7 +185,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/register_password2"
+        android:id="@+id/changePw_password2"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
@@ -195,7 +195,7 @@
         app:contentPaddingRight="15dp"
         app:layout_constraintEnd_toStartOf="@+id/register_guidelineRight"
         app:layout_constraintStart_toStartOf="@+id/register_guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/register_password"
+        app:layout_constraintTop_toBottomOf="@+id/changePw_password"
         app:strokeColor="#1566E0"
         tools:strokeWidth="0dp">
 
@@ -218,7 +218,7 @@
                 app:tint="@color/blue" />
 
             <EditText
-                android:id="@+id/register_confirmPasswordInput"
+                android:id="@+id/changePw_confirmPasswordInput"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
@@ -252,7 +252,7 @@
         app:layout_constraintEnd_toStartOf="@+id/register_guidelineRight"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/register_guidelineLeft"
-        app:layout_constraintTop_toBottomOf="@+id/register_password2">
+        app:layout_constraintTop_toBottomOf="@+id/changePw_password2">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/register_registerBtn_ContrainedLayout"

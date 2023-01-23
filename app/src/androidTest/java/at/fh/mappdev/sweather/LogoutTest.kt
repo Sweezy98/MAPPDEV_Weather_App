@@ -27,8 +27,12 @@ class LogoutTest {
         Intents.release()
     }
     @Test
-    fun clickOnSettingsBtn() {
+    fun checkLogout() {
         onView(withId(R.id.settingsBtn)).perform(click())
+        Thread.sleep(1000)
         intended(hasComponent(SettingsActivity::class.java.name))
+        onView(withId(R.id.logoutBtn_card)).perform(click())
+        Thread.sleep(1000)
+        intended(hasComponent(LoginRegisterActivity::class.java.name))
     }
 }

@@ -2,8 +2,10 @@ package at.fh.mappdev.sweather
 
 import android.app.ActivityManager
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.cache.normalized.FetchPolicy
 import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
@@ -66,6 +68,10 @@ private class AuthorizationInterceptor(val context: Context): Interceptor, Corou
                 // finish all activities
                 val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
                 activityManager.appTasks.forEach { it.finishAndRemoveTask() }
+
+                // goto login screen
+                val intent = Intent(context, LoginRegisterActivity::class.java)
+                startActivity(context, intent, null)
 
 
                 Toast.makeText(context, "Your session has expired. Please log in again.", Toast.LENGTH_LONG).show()
