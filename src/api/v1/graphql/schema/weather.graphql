@@ -1,0 +1,160 @@
+"""
+Temperature, with units Celsius and Fahrenheit
+"""
+type Temperature {
+    """
+    Temperature. Unit Celsius
+    """
+    c: Int,
+    """
+    Temperature. Unit Fahrenheit
+    """
+    f: Int
+}
+
+"""
+Temperature data
+"""
+type TemperatureData {
+    """
+    Current temperature. Null if not the current day.
+    """
+    cur: Temperature,
+    """
+    Minimum temperature at the moment. This is deviation from current temp that is possible for large cities and megalopolises geographically expanded (use these parameter optionally).
+    """
+    min: Temperature,
+    """
+    Maximum temperature at the moment. This is deviation from current temp that is possible for large cities and megalopolises geographically expanded (use these parameter optionally).
+    """
+    max: Temperature,
+    """
+    Temperature. This temperature parameter accounts for the human perception of weather.
+    """
+    feel: Temperature
+}
+
+"""
+Weather Details
+"""
+type WeatherDetails {
+    """
+    Humidity, %
+    """
+    humidity: Float,
+    """
+    Rain volume for the last 3 hours
+    """
+    precipitation: Float,
+    """
+    Visibility, meter
+    """
+    visibility: Float,
+    """
+    Wind data
+    """
+    wind: Wind,
+    """
+    Atmospheric pressure on the sea level, hPa
+    """
+    pressure: Float
+}
+
+"""
+Wind data
+"""
+type Wind {
+    """
+    Wind speed. Unit Default: meter/sec
+    """
+    speed: Float
+    """
+    Wind direction, degrees (meteorological)
+    """
+    deg: Int
+}
+
+"""
+Day of the week
+"""
+type Weekday {
+    """
+    Day of the week in long format
+    """
+    long: String,
+    """
+    Day of the week in short format
+    """
+    short: String
+}
+
+"""
+Weather data for a specific day
+"""
+type WeatherDataForecast {
+    """
+    Date of the forecast
+    """
+    date: String,
+    """
+    Day of the week
+    """
+    weekday: Weekday,
+    """
+    Description of the weather
+    """
+    description: String,
+    """
+    Temperature data
+    """
+    temps: TemperatureData,
+    """
+    Weather Details
+    """
+    details: WeatherDetails,
+    """
+    Weather code
+    """
+    code: Int
+    """
+    Weather icon
+    """
+    icon: String
+}
+
+"""
+Weather data for a specific location
+"""
+type WeatherData {
+    """
+    Location name
+    """
+    name: String,
+    """
+    Array of weather data
+    """
+    weather: [WeatherDataForecast],
+    """
+    True if user logged in and location is favourite, otherwise false
+    """
+    isFavourite: Boolean,
+    """
+    id of favourite location
+    """
+    favouriteId: String
+}
+
+type Query {
+    """
+    Query weather data for a specific location
+    """
+    getWeatherData(
+        """
+        Latitude of the location
+        """
+        lat: Float!,
+        """
+        Longitude of the location
+        """
+        lon: Float!): WeatherData
+}

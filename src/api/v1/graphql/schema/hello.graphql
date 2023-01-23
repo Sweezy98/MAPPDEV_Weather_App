@@ -1,0 +1,10 @@
+type Query {
+    """
+    Say hello
+    """
+    sayHello(
+        """
+        Your name
+        """
+        name: String!): String
+}

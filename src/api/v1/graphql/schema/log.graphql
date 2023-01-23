@@ -1,0 +1,34 @@
+type Log {
+    """
+    timestamp
+    """
+    timestamp: String
+    """
+    level
+    """
+    level: String
+    """
+    trace (sender of the log)
+    """
+    trace: String
+    """
+    message
+    """
+    message: String
+}
+
+type Query {
+    """
+    getLogs
+    """
+    getLogs(
+        """
+        limit (default 20)
+        """
+        limit: Int
+        """
+        offset/page (default 0)
+        """
+        offset: Int
+    ): [Log]
+}

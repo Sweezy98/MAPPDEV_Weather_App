@@ -1,0 +1,209 @@
+
+"""
+User Object
+"""
+type User {
+    """
+    Unique identifier from Database for the user
+    """
+    _id: ID
+    """
+    Name of the user
+    """
+    name: String
+    """
+    Email of the user
+    """
+    email: String!
+    """
+    Account verified
+    """
+    verified: Boolean
+}
+
+"""
+Userdata needed to create a new user
+"""
+input UserInput {
+    """
+    Name of the user
+    """
+    name: String!
+    """
+    Email of the user
+    """
+    email: String!
+    """
+    Password of the user
+    Stored as a hash
+    """
+    password: String!
+}
+
+
+"""
+returned data after login
+"""
+type AuthData {
+    """
+    Unique identifier from Database for the user
+    """
+    userId: ID
+    """
+    Name of the user
+    """
+    name: String
+    """
+    Email of the user
+    """
+    email: String
+    """
+    access and refresh token
+    """
+    tokens: AuthTokens
+    """
+    session id
+    """
+    session: String
+}
+
+"""
+access and refresh token
+"""
+type AuthTokens {
+    """
+    access token
+    valid for 15 minutes
+    """
+    accessToken: String
+    """
+    refresh token
+    valid for 30 days
+    gets refreshed on every renewToken call
+    """
+    refreshToken: String
+}
+
+"""
+Favourite Object
+"""
+type Favourite {
+    """
+    Unique identifier from Database for the favourite
+    """
+    _id: ID
+    """
+    Name of the favourite
+    """
+    name: String
+    """
+    latitude of the favourite
+    """
+    lat: Float
+    """
+    longitude of the favourite
+    """
+    lon: Float
+}
+
+"""
+Favorite data needed to create a new favourite
+"""
+input FavouriteInput {
+    """
+    Name of the favourite
+    """
+    name: String!
+    """
+    latitude of the favourite
+    """
+    lat: Float!
+    """
+    longitude of the favourite
+    """
+    lon: Float!
+}
+
+"""
+Session Object
+"""
+type Session {
+    """
+    Unique identifier from Database for the session
+    """
+    _id: ID
+    """
+    User of the session
+    """
+    user: User
+    """
+    valid until
+    """
+    validUntil: String
+}
+
+type Query {
+    login(email: String!, password: String!): AuthData
+    """
+    returns a new accessToken and refreshes the refreshToken
+    """
+    renewToken(refreshToken: String!): AuthTokens
+    """
+    forgot password
+    returns true if email was sent
+    returns also true if email was not found (security)
+    """
+    forgotPassword(email: String!): Boolean
+    """
+    logout
+    returns true if logout was successful
+    """
+    logout(session: String!): Boolean
+    """
+    get a list of all users
+    """
+    users: [User]
+    """
+    get a single user
+    """
+    user(_id: ID!): User
+    """
+    get a list of all favourites of the current user
+    """
+    userFavourites: [Favourite]
+    """
+    get a list of all sessions
+    """
+    sessions: [Session]
+    """
+    get a list of all sessions of the current user
+    """
+    userSessions: [Session]
+}
+
+type Mutation {
+    """
+    register a new user
+    """
+    createUser(user: UserInput!): User
+    """
+    change password
+    returns true if password was changed
+    """
+    changePassword(oldPassword: String!, newPassword: String!): Boolean
+    """
+    change user name
+    returns true if name was changed
+    """
+    changeName(name: String!): Boolean
+    """
+    add a favourite to the current user
+    returns the new favourite list
+    """
+    addFavourite(favourite: FavouriteInput!): [Favourite]
+    """
+    remove a favourite from the current user
+    returns the new favourite list
+    """
+    removeFavourite(id: ID!): [Favourite]
+}
